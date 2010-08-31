@@ -77,7 +77,7 @@ sub process_grib {
         my @values = split ();
         # print STDERR "O $field_no (" . join (", ", @fields) . "): $_\n";
         my $s = new RDF::Redland::BlankNode ();
-        my $st2 = new RDF::Redland::Statement ($s1, $p1, $s);
+        $model->add_statement ($s1, $p1, $s);
         {
             my $p
                 = new RDF::Redland::URINode ($pred_field_number);
