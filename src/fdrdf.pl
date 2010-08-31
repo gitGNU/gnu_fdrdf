@@ -15,8 +15,14 @@ use RDF::Redland;
 use URI::file;
 use UUID;
 
-## FIXME: basename?
 $progname = $PROGRAM_NAME;
+$progname =~ s/^.*\///;
+
+## NB: a la GNU Autotools
+$PACKAGE = "fdrdf";
+$PACKAGE_NAME = "FDRDF";
+$PACKAGE_VERSION = "0.1";
+$PACKAGE_BUGREPORT = 'ivan@theory.asu.ru';
 
 sub open_file {
     my ($fn, $write_p) = @_;
@@ -83,13 +89,58 @@ sub process_file {
     close_file ($io1);
 }
 
+## FIXME: use the Perl port of GNU Argp
+
+sub help {
+    print (""
+           . "Usage: " . $p . " [OPTION...] FILE...\n"
+           . "  or:  " . $p . " [OPTION...] -T FILE [FILE...]\n"
+           . "Gather File metaData and produce its RDF"
+           . " representation\n"
+           . "\n"
+           . "  -0, --null                "
+           . " -T reads null-terminated names\n"
+           . "  -c, --config-file=RDF-FILE"
+           . " read configuration from RDF-FILE\n"
+           . "  -m, --modules=MODULES     "
+           . " use MODULES to process files\n"
+           . "  -o, --output=FILE         "
+           . " write result to FILE instead of standard output\n"
+           . "  -T, --files-from=FILE     "
+           . " get names to extract or create from FILE\n"
+           . "\n"
+           . "  -?, --help                 Give this help list\n"
+           . "      --usage                Give a short usage message\n"
+           . "  -V, --version              Print program version\n"
+           . "\n"
+           . "Mandatory or optional arguments to long options"
+           . " are also mandatory or optional\n"
+           . "for any corresponding short options.\n"
+           . "\n"
+           . "Report bugs to " . $PACKAGE_BUGREPORT . ".\n");
+}
+
+sub version {
+    print ($progname
+           . " (" . $PACKAGE_NAME . ") " . $PACKAGE_VERSION . "\n"
+           . "Copyright (C) 2010 Ivan Shmakov\n"
+           . "License GPLv3+: GNU GPL version 3 or later"
+           . " <http://gnu.org/licenses/gpl.html>.\n"
+           . "This is free software: you are free to change"
+           . " and redistribute it.\n"
+           . "There is NO WARRANTY, to the extent permitted"
+           . " by law.\n");
+}
+
 my @config_files = ();
 my %the_modules = ();
 my $null_p = 0;
 my @files_from = ();
 my $output = "-";
-## FIXME: handle GNU standard --help and --version options
-Getopt::Mixed::init ("0 null>0"
+
+Getopt::Mixed::init ("?      help>?"
+                     . " V   version>V"
+                     . " 0   null>0"
                      . " c=s config-file>c"
                      . " T=s files-from>T"
                      . " m=s modules>m"
@@ -99,6 +150,16 @@ Getopt::Mixed::init ("0 null>0"
     ## FIXME: should distinguish --FOO= from --FOO (for --FOO[=ARG])
     while (($optstrip, $value, $_) = nextOption ()) {
       SWITCH: {
+          if (/^-[?]|^--help/) {
+              help ();
+              exit 0;
+              last SWITCH;
+          }
+          if (/^-V|^--version/) {
+              version ();
+              exit 0;
+              last SWITCH;
+          }
           if (/^-0|^--null/) {
               $null_p = 1;
               last SWITCH;
@@ -127,10 +188,9 @@ Getopt::Mixed::cleanup ();
 
 ## Check for the extra arguments
 unless ((1 + $#ARGV > 0) or (1 + $#files_from > 0)) {
-    my $p = $progname;
     print STDERR (""
-                  . "Usage: " . $p . " [OPTION...] FILE...\n"
-                  . "  or:  " . $p . " [OPTION...] -T FILE [FILE...]\n");
+                  . "$progname: No filename given\n"
+                  . "Try `$progname --help' for more information.\n");
     exit 1;
 }
 
