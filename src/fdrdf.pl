@@ -96,7 +96,7 @@ sub help {
            . "Usage: " . $p . " [OPTION...] FILE...\n"
            . "  or:  " . $p . " [OPTION...] -T FILE [FILE...]\n"
            . "Gather File metaData and produce its RDF"
-           . " representation\n"
+           . " representation.\n"
            . "\n"
            . "  -0, --null                "
            . " -T reads null-terminated names\n"
