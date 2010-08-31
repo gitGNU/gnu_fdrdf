@@ -68,15 +68,18 @@ sub process_file {
     my $uri_s
         = $uri->as_string ();
     my $subject = new RDF::Redland::URINode ($uri_s);
+    my $io1 = open_file ($filename, 0)
+        or die ("$filename: cannot open");
     foreach my $m (keys (%$modules)) {
         my $handle = $$modules{$m};
         my ($sub, @args) = @$handle;
-        my $io = open_file ($filename, 0)
-            or die ("$filename: cannot open");
+        open (my $io, "<&", $io1)
+            or die ();
         push (@args, $model, $subject, $io);
         &$sub (@args);
-        close_file ($io);
+        close ($io);
     }
+    close_file ($io1);
 }
 
 my @config_files = ();
