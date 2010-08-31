@@ -121,6 +121,10 @@ sub help {
            . " write result to FILE instead of standard output\n"
            . "  -T, --files-from=FILE     "
            . " get names to extract or create from FILE\n"
+           . "  -t, --output-format=FORMAT"
+           . " use specific librdf output serialization;\n"
+           . "                            "
+           . " may be: `rdfxml' (default), `ntriples', `rdfxml'\n"
            . "\n"
            . "  -?, --help                 Give this help list\n"
            . "      --usage                Give a short usage message\n"
@@ -150,6 +154,7 @@ my %the_modules = ();
 my $null_p = 0;
 my @files_from = ();
 my $output = "-";
+my $output_format = "rdfxml";
 
 Getopt::Mixed::init ("?      help>?"
                      . " V   version>V"
@@ -157,7 +162,8 @@ Getopt::Mixed::init ("?      help>?"
                      . " c=s config-file>c"
                      . " T=s files-from>T"
                      . " m=s modules>m"
-                     . " o=s output>o");
+                     . " o=s output>o"
+                     . " t=s output-format>t");
 {
     my $optstrip, $value, $_;
     ## FIXME: should distinguish --FOO= from --FOO (for --FOO[=ARG])
@@ -194,6 +200,10 @@ Getopt::Mixed::init ("?      help>?"
               $output = $value;
               last SWITCH;
           }
+          if (/^-t|^--output-format/) {
+              $output_format = $value;
+              last SWITCH;
+          }
       }
     }
 }
@@ -211,6 +221,10 @@ my $out = open_file ($output, 1);
 unless (defined ($out)) {
     die ("$output: cannot open file");
 }
+
+my $serializer
+    = new RDF::Redland::Serializer ($output_format)
+    or die ("$output_format: cannot initialize serializer");
 
 my $sto = new RDF::Redland::Storage ("hashes", "test",
                                      "new='yes', hash-type='memory'");
@@ -240,7 +254,7 @@ foreach my $file (@ARGV) {
     UUID::unparse  ($uuid_bit, $uuid_s);
     my $base
         = new RDF::Redland::URI ("uuid:" . $uuid_s);
-    my $ser = new RDF::Redland::Serializer ("rdfxml");
+    my $ser = $serializer;
     my $str
         = $ser->serialize_model_to_string ($base, $model);
     print $out $str;
