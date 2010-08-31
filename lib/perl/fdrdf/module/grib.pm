@@ -87,7 +87,6 @@ sub process_grib {
             $model->add_statement ($st);
         }
         for (my $i = 0; $i <= $#values; $i++) {
-            print STDERR $fields[$i], ", ", $values[$i], "\n";
             my $literal = $values[$i];
             my $p_u = $grib_prefix . $fields[$i];
             my $p
