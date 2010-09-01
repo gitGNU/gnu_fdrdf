@@ -150,7 +150,7 @@ sub version {
 }
 
 my @config_files = ();
-my %the_modules = ();
+my @module_list;
 my $null_p = 0;
 my @files_from = ();
 my $output = "-";
@@ -192,8 +192,7 @@ Getopt::Mixed::init ("?      help>?"
               last SWITCH;
           }
           if (/^-m|^--modules/) {
-              init_modules ($config, \%the_modules,
-                            split (' ', $value));
+              push (@module_list, split (' ', $value));
               last SWITCH;
           }
           if (/^-o|--output/) {
@@ -228,7 +227,12 @@ my $serializer
 
 my $sto = new RDF::Redland::Storage ("hashes", "test",
                                      "new='yes', hash-type='memory'");
+my $config
+    = new RDF::Redland::Model ($sto, "");
 my $model = new RDF::Redland::Model ($sto, "");
+
+my %the_modules = ();
+init_modules ($config, \%the_modules, @module_list);
 
 foreach my $i (@files_from) {
     my $in = open_file ($i, 0);
