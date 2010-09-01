@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- fdrdf.xml &mdash; fdrdf(1) reference page -->
+<?xml-stylesheet
+   type="text/xsl"
+   href="http://docbook.sourceforge.net/release/xsl-ns/current/manpages/docbook.xsl"
+   ?>
+<!-- Based on the foo.1.example_manpage.xml.gz example -->
+<!DOCTYPE refentry
+          PUBLIC "-//OASIS//DTD DocBook XML 5.0//EN"
+          "http://www.oasis-open.org/docbook/xml/5.0/dtd/docbook.dtd" [
+          <!ENTITY fdfirstname "Ivan">
+          <!ENTITY fdsurname   "Shmakov">
+          <!ENTITY fdemail     "ivan@theory.asu.ru">
+          <!ENTITY fdfullname  "&fdfirstname; &fdsurname;">
+          <!ENTITY fdbugemail  "adir-devel@theory.asu.ru">
+
+          <!ENTITY fdrdf       "fdrdf">
+          <!ENTITY fdpackage   "FDRDF">
+          <!ENTITY fducpackage "&fdpackage;">
+          <!ENTITY fdrelease   "0.1">
+          <!ENTITY fdtitle     "&fdpackage;">
+          <!ENTITY fdproduct   "&fdpackage;">
+
+          <!ENTITY fdsection   "1">
+
+          <!ENTITY urlecmwf
+                   "http://www.ecmwf.int/">
+          <!ENTITY urlgribapi
+                   "&urlecmwf;products/data/software/grib_api.html">
+          <!ENTITY urllibcman
+                   "http://www.gnu.org/software/libc/manual/">
+          <!ENTITY urllibcmanargp
+                   "&urllibcman;html_node/Argp.html">
+          <!ENTITY urllibrdf
+                   "http://librdf.org/">
+          <!ENTITY urlrdf
+                   "http://www.w3.org/RDF/">
+
+          <!ENTITY
+             % iso.num PUBLIC
+             "ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
+             "ISOnum.ent">
+          <!ENTITY
+             % iso.pub PUBLIC
+             "ISO 8879:1986//ENTITIES Publishing//EN//XML"
+             "ISOpub.ent">
+          %iso.num;
+          %iso.pub;
+          ]>
+<refentry xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          version="5.0"
+          xml:lang="en">
+  <!-- also consider:
+       xmlns:m="http://www.w3.org/1998/Math/MathML"
+    -->
+
+  <info>
+    <!-- <title>&fdtitle;</title> -->
+    <productname>&fdproduct;</productname>
+    <releaseinfo role="version">&fdrelease;</releaseinfo>
+    <!-- authorgroup -->
+      <author>
+        <personname>
+          <firstname>&fdfirstname;</firstname>
+          <surname>&fdsurname;</surname>
+        </personname>
+        <address>
+          <email>&fdemail;</email>
+        </address>
+        <contrib>Original author.</contrib>
+      </author>
+    <!-- /authorgroup -->
+    <copyright>
+      <year>2010</year>
+      <holder>&fdfullname;</holder>
+    </copyright>
+    <legalnotice>
+      <para>Permission is granted to copy, distribute and/or modify this
+        document under the terms of the GNU Free Documentation License,
+        Version 1.3 or any later version published by the Free Software
+        Foundation; with no Invariant Sections, no Front-Cover Texts,
+        and no Back-Cover Texts.</para>
+    </legalnotice>
+  </info>
+
+  <refmeta>
+    <refentrytitle>&fdrdf;</refentrytitle>
+    <refmiscinfo class="manual">&fdpackage;</refmiscinfo>
+    <manvolnum>&fdsection;</manvolnum>
+  </refmeta>
+
+  <refnamediv>
+    <refname>&fdrdf;</refname>
+    <refpurpose>extract files' metadata with given modules and produce
+      the result in an RDF representation</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>&fdrdf;</command>
+      <arg choice="opt" rep="repeat"
+           ><replaceable>OPTION</replaceable></arg>
+      <arg choice="plain" rep="repeat"
+           ><replaceable>FILE</replaceable></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      <command>&fdrdf;</command>
+      <arg choice="opt" rep="repeat"
+           ><replaceable>OPTION</replaceable></arg>
+        <arg choice="plain" rep="repeat"
+             ><option>-T</option> <replaceable>FILE</replaceable></arg>
+        <arg choice="opt" rep="repeat"
+             ><replaceable>FILE</replaceable></arg>
+    </cmdsynopsis>
+
+  </refsynopsisdiv>
+
+  <refsect1 xml:id="description">
+    <title xml:id="description.t"
+           >DESCRIPTION</title>
+
+    <para>The <command>&fdrdf;</command> command processes the files,
+      which may be specified as command line arguments, or obtained from
+      one or more file lists (as specified by
+      the <option>--files-from</option> or <option>-T</option> options),
+      or both.
+    </para>
+
+    <para>Each file is passed to the <firstterm>modules</firstterm>, as
+      given by one or more <option>--modules</option>
+      (<option>-m</option>) options.  The results are collected into an
+      <firstterm><acronym>RDF</acronym> model</firstterm> of the file
+      set, and then sent to the standard output (or file) in a
+      representation supported by the
+      <package>Redland RDF library</package>.
+    </para>
+  </refsect1>
+
+  <refsect1 xml:id="options">
+    <title>OPTIONS</title>
+    <variablelist>
+
+      <varlistentry>
+        <term><option>-0</option></term>
+        <term><option>--null</option></term>
+        <listitem>
+          <para>When reading the files specified by the
+            <option>--files-from</option> (<option>-T</option>) option
+            or options, expect that the files in the list are terminated
+            with <acronym>ASCII</acronym>
+            <!-- FIXME: huh? an element for an ASCII code, please? -->
+            NUL instead of newlines.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-c</option></term>
+        <term xml:space='default'>
+          <option>--config-file</option
+          ><literal>=</literal
+          ><option>RDF-FILE</option>
+        </term>
+        <listitem>
+          <para>Read configuration from
+            <replaceable>RDF-FILE</replaceable>.
+            <!-- FIXME: implement it! -->
+            (Currently does nothing.)</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-m</option></term>
+        <term xml:space='default'>
+          <option>--modules</option
+          ><literal>=</literal
+          ><option>MODULES</option>
+        </term>
+        <listitem>
+          <para>Specify the modules to process the files with.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-o</option></term>
+        <term xml:space='default'>
+          <option>--output</option
+          ><literal>=</literal
+          ><option>FILE</option>
+        </term>
+        <listitem>
+          <para>Write the result to the specified
+            <replaceable>FILE</replaceable> instead of the standard
+            output.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-T</option></term>
+        <term xml:space='default'>
+          <option>--files-from</option>
+          <literal>=</literal>
+          <replaceable>FILE</replaceable>
+        </term>
+        <listitem>
+          <para>Read the list of files to process from
+            <replaceable>FILE</replaceable>, in addition to those
+            specified on the command line.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-t</option></term>
+        <term>
+          <option>--output-format</option>
+          <literal>=</literal>
+          <replaceable>FORMAT</replaceable>
+        </term>
+        <listitem>
+          <para>Specify the output serialization, as supported by the
+            <package>Redland RDF library</package>.
+            May be one of:
+            <simplelist type="inline">
+              <member><literal>rdfxml</literal> (default)</member>
+              <member><literal>ntriples</literal></member>
+              <member><literal>simple</literal></member>
+            </simplelist>.</para>
+        </listitem>
+      </varlistentry>
+
+      <!-- GNU standard options -->
+
+      <varlistentry>
+        <term><option>-?</option></term>
+        <term><option>--help</option></term>
+        <listitem>
+          <para>Print a verbose usage message, then exit
+            successfully.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-V</option></term>
+        <term><option>--version</option></term>
+        <listitem>
+          <para>Print the version, then exit successfully.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1 xml:id="examples">
+    <title xml:id="examples.t"
+           >EXAMPLES</title>
+
+    <!-- para -->
+      <!-- informalexample -->
+        <screen><prompt
+>$ </prompt><userinput><command
+>fdrdf</command> \
+      --output-format=ntriples \
+      --modules=stat \
+      ~/example/ </userinput>
+&hellip;
+<computeroutput
+>&lt;file:///home/jrh/example/&gt;
+ &lt;uuid:2e22aa82-b550-11df-9d5c-4040a5e6bfa3#stat.n.uid&gt;
+ "1001"^^&lt;http://www.w3.org/2001/XMLSchema#integer&gt;
+ .
+&hellip;</computeroutput>
+<prompt
+>$ </prompt></screen>
+      <!-- /informalexample --><!-- /para -->
+
+  </refsect1>
+
+  <refsect1 xml:id="bugs">
+    <title xml:id="bugs.t"
+           >BUGS</title>
+
+    <para>The available modules, and the modules interface, are yet to
+      be documented.</para>
+
+    <para>The <option>--config-file</option> (<option>-c</option>)
+      option currently does nothing.</para>
+
+    <para>The command line interface in general and the
+      <option>--help</option> option output is modelled after
+      <link xlink:href="&urllibcmanargp;">GNU Argp</link> for
+      <!-- FIXME: huh? an element for a programming language? -->
+      C.  Instead of hard-coding the output in a
+      <function>print</function>, a comparable
+      <!-- FIXME: huh? an element for a programming language? -->
+      Perl facility should be used.</para>
+
+    <para>There are more.</para>
+
+    <para>Please report bugs to
+      <email>&fdbugemail;</email>.</para>
+  </refsect1>
+
+  <refsect1 xml:id="see-also">
+    <title xml:id="see-also.t"
+           >SEE ALSO</title>
+
+    <!-- please keep sorted alphabetically -->
+    <!-- FIXME: what's up with simplelist here? -->
+    <simplelist type="inline">
+      <member><citerefentry>
+          <refentrytitle>rdfproc</refentrytitle>
+          <manvolnum>1</manvolnum>
+        </citerefentry></member>
+      <member><citerefentry>
+          <refentrytitle>RDF::Redland</refentrytitle>
+          <manvolnum>3pm</manvolnum>
+        </citerefentry></member>
+    </simplelist>
+
+    <para>For further information, please see:
+      <itemizedlist>
+        <listitem><simpara
+                     ><link xlink:href="&urlgribapi;"
+                            /></simpara></listitem>
+        <listitem><simpara
+                     ><link xlink:href="&urllibcmanargp;"
+                            /></simpara></listitem>
+        <listitem><simpara
+                     ><link xlink:href="&urllibrdf;"
+                            /></simpara></listitem>
+        <listitem><simpara
+                     ><link xlink:href="&urlrdf;"
+                            /></simpara></listitem>
+      </itemizedlist></para>
+
+  </refsect1>
+</refentry>
+<!-- Local variables: -->
+<!-- fill-column: 72 -->
+<!-- indent-tabs-mode: nil -->
+<!-- ispell-local-dictionary: "american" -->
+<!-- End: -->
+<!-- fdrdf.xml ends here -->
