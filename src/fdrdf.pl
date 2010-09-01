@@ -28,6 +28,8 @@ use RDF::Redland;
 use URI::file;
 use UUID;
 
+use fdrdf::module qw(&module_entry &module_tags &module_invoke_tag);
+
 $progname = $PROGRAM_NAME;
 $progname =~ s/^.*\///;
 
@@ -62,10 +64,28 @@ sub init_module {
         if ($@);
 
     my $pkg = "fdrdf::module::" . $module;
-    my $handle = new $pkg ($config);
+    my $handle
+        = new $pkg (module_entry (), $config);
 
     ## .
     return $handle;
+}
+
+sub check_module_tags {
+    my ($modules, $name, $e_ref) = @_;
+
+    my @tags
+        = module_tags ($e_ref);
+    foreach my $tag (@tags) {
+      SWITCH: {
+          if ($tag eq "io") {
+              $modules->{$tag}->{$name} = $e_ref;
+              last SWITCH;
+          }
+          print STDERR
+              "$progname: Warning: Unknown module tag $tag; ignored\n";
+      }
+    }
 }
 
 sub init_modules {
@@ -76,7 +96,7 @@ sub init_modules {
         my $handle;
         $handle = init_module ($config, $m)
             or die ("$m: failed to initialize module");
-        $$handles{$m} = $handle;
+        check_module_tags ($handles, $m, $handle);
     }
 }
 
@@ -90,13 +110,11 @@ sub process_file {
     my $subject = new RDF::Redland::URINode ($uri_s);
     my $io1 = open_file ($filename, 0)
         or die ("$filename: cannot open");
-    foreach my $m (keys (%$modules)) {
-        my $handle = $$modules{$m};
-        my ($sub, @args) = @$handle;
+    foreach my $m (keys (%{$modules->{"io"}})) {
+        my $handle = $modules->{"io"}->{$m};
         open (my $io, "<&", $io1)
             or die ();
-        push (@args, $model, $subject, $io);
-        &$sub (@args);
+        module_invoke_tag ($handle, "io", $model, $subject, $io);
         close ($io);
     }
     close_file ($io1);

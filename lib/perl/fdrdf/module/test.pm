@@ -8,6 +8,8 @@ package fdrdf::module::test;
 use strict;
 use warnings;
 
+use fdrdf::module;
+
 BEGIN {
     use Exporter ();
     our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
@@ -35,16 +37,17 @@ sub test {
 }
 
 sub new {
+    my ($pkg, $e_ref, $config) = @_;
     my $relation_uri_s
         = ("uuid:35cef816-b42f-11df-84e9-4040a5e6bfa3#"
 	   . "fdrdf::modules::test");
     my $relation
 	= new RDF::Redland::URINode ($relation_uri_s);
     my @handle = (\&test, $relation);
+    module_add_to_tag ($e_ref, "io", \@handle);
 
     ## .
-    return
-	\@handle;
+    return $e_ref;
 }
 
 1;

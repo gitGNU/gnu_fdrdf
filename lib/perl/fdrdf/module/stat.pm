@@ -8,6 +8,8 @@ package fdrdf::module::stat;
 use strict;
 use warnings;
 
+use fdrdf::module;
+
 BEGIN {
     use Exporter ();
     our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
@@ -66,6 +68,7 @@ sub process_file {
 }
 
 sub new {
+    my ($pkg, $e_ref, $config) = @_;
     our ($num_prefix, $sym_prefix);
     our (@keys_list);
     our ($xs_prefix, @xs_types_list);
@@ -83,10 +86,10 @@ sub new {
         $params{"node.pred.numeric"}{$key}
             = new RDF::Redland::URINode ($uri_s);
     }
+    module_add_to_tag ($e_ref, "io", \@handle);
 
     ## .
-    return
-        \@handle;
+    return $e_ref;    
 }
 
 1;

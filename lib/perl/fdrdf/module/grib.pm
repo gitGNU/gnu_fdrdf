@@ -11,6 +11,8 @@ use warnings;
 use Fcntl qw(F_GETFD F_SETFD FD_CLOEXEC);
 use RDF::Redland;
 
+use fdrdf::module;
+
 BEGIN {
     require Exporter;
     our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
@@ -107,9 +109,11 @@ sub process_grib {
 }
 
 sub new {
+    my ($pkg, $e_ref, $config) = @_;
     my @handle = (\&process_grib);
-    return
-        \@handle;
+    module_add_to_tag ($e_ref, "io", \@handle);
+    ## .
+    return $e_ref;
 }
 
 1;
