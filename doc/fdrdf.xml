@@ -33,6 +33,10 @@
                    "&urllibcman;html_node/Argp.html">
           <!ENTITY urllibrdf
                    "http://librdf.org/">
+          <!ENTITY urlposix
+                   "http://www.opengroup.org/onlinepubs/9699919799/">
+          <!ENTITY urlposixstat
+                   "&urlposix;functions/stat.html">
           <!ENTITY urlrdf
                    "http://www.w3.org/RDF/">
 
@@ -247,6 +251,71 @@
         </listitem>
       </varlistentry>
     </variablelist>
+  </refsect1>
+
+  <refsect1 xml:id="modules">
+    <title xml:id="modules.t"
+           >MODULES</title>
+
+    <para>The following modules come with the package.</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><literal>grib</literal></term>
+        <listitem>
+          <para>Process file with <command>grib_ls</command>
+            (which is a part of the
+            <link xlink:href="&urlgribapi;">GRIB API</link>
+            package) and record the fields' descriptions.</para>
+
+          <para>Its description prefix is:
+            <link
+               xlink:href="uuid:cf81ffce-b43b-11df-b10e-0026b917f4bd#"
+               />.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><literal>stat</literal></term>
+        <listitem>
+          <para>Perform
+            <link xlink:href="&urlposix;">POSIX</link>
+            <link xlink:href="&urlposixstat;"
+                  ><function>stat</function></link>
+            (or, rather, <function>fstat</function>) function on file
+            and record the results in the numeric form.
+          </para>
+
+          <para>Its configuration prefix is:
+            <link
+               xlink:href="uuid:21624fe2-b54f-11df-b9c0-4040a5e6bfa3#cf."
+               />.</para>
+
+          <para>Its description prefix is:
+            <link
+               xlink:href="uuid:2e22aa82-b550-11df-9d5c-4040a5e6bfa3#stat."
+               />.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><literal>test</literal></term>
+        <listitem>
+          <para>Add a constant (relation, value) pair to the description
+            of each file processed.</para>
+
+          <para>Due to its simplicity, this module may be used as a
+            template when developing other modules.</para>
+
+          <para>Its description prefix is:
+            <link
+               xlink:href="uuid:35cef816-b42f-11df-84e9-4040a5e6bfa3#"
+               />.</para>
+          <para></para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
   </refsect1>
 
   <refsect1 xml:id="examples">
