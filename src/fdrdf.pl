@@ -94,6 +94,8 @@ sub process_file {
     my $subject = new RDF::Redland::URINode ($uri_s);
     my $io1 = open_file ($filename, 0)
         or die ("$filename: cannot open");
+
+    ## process tag: io
     foreach my $m (keys (%{$modules->{"io"}})) {
         my $handle = $modules->{"io"}->{$m};
         open (my $io, "<&", $io1)
@@ -101,7 +103,44 @@ sub process_file {
         module_invoke_tag ($handle, "io", $model, $subject, $io);
         close ($io);
     }
+
+    ## process tag: chunk
+    process_chunk ($modules->{"chunk"}, "chunk", $io1,
+                   $model, $subject);
+
     close_file ($io1);
+}
+
+sub process_chunk {
+    my ($h_ref, $tag, $io1, @args) = @_;
+    my $chunk_size = 262144;
+
+    open (my $io_c, "<&", $io1);
+    binmode ($io1);
+    unless (sysseek ($io_c, 0, 0)) {
+        warn ("$file: cannot lseek(2); will not process in chunks");
+        ## .
+        return undef;
+    }
+
+    my @pointers = ();
+    foreach my $m (keys (%$h_ref)) {
+        push (@pointers, 
+              module_invoke_tag ($h_ref->{$m}, $tag, @args));
+    }
+
+    my ($r, $buf);
+    while (($r = sysread ($io_c, $buf, $chunk_size)) > 0) {
+        foreach my $p (@pointers) {
+            $p->{"chunk"} ($buf);
+        }
+    }
+    die ()
+        unless (defined ($r));
+
+    foreach my $p (@pointers) {
+        $p->{"close"} ();
+    }
 }
 
 ## FIXME: use the Perl port of GNU Argp
@@ -245,7 +284,8 @@ my $config
 my $model = new RDF::Redland::Model ($sto, "");
 
 my %the_modules
-    = ("io"     => { });
+    = ("io"     => { },
+       "chunk"  => { });
 init_modules ($config, \%the_modules, @module_list);
 
 my %process_info
