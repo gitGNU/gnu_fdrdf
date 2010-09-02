@@ -8,10 +8,10 @@ package fdrdf::module::grib;
 use strict;
 use warnings;
 
-use Fcntl qw(F_GETFD F_SETFD FD_CLOEXEC);
 use RDF::Redland;
 
 use fdrdf::module;
+use fdrdf::util;
 
 BEGIN {
     require Exporter;
@@ -29,16 +29,6 @@ BEGIN {
     our ($pred_contains, $pred_field_number);
     $pred_contains = $desc_prefix . "contains";
     $pred_field_number = $desc_prefix . "fieldNumber";
-}
-
-sub drop_cloexec {
-    my ($io) = @_;
-    my $flags;
-    $flags = fcntl ($io, F_GETFD, 0)
-        or die ();
-    $flags &= (~ FD_CLOEXEC);
-    $flags  = fcntl ($io, F_SETFD, $flags)
-        or die ();
 }
 
 sub process_grib {

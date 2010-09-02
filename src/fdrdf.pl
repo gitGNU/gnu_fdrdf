@@ -22,13 +22,13 @@
 # use DateTime;
 use English qw(-no_match_vars);
 use Getopt::Mixed "nextOption";
-use IO::File;
 # use MIME::Base64;
 use RDF::Redland;
 use URI::file;
 use UUID;
 
 use fdrdf::module qw(&module_entry &module_tags &module_invoke_tag);
+use fdrdf::util;
 
 $progname = $PROGRAM_NAME;
 $progname =~ s/^.*\///;
@@ -38,22 +38,6 @@ $PACKAGE = "fdrdf";
 $PACKAGE_NAME = "FDRDF";
 $PACKAGE_VERSION = "0.1";
 $PACKAGE_BUGREPORT = 'ivan@theory.asu.ru';
-
-sub open_file {
-    my ($fn, $write_p) = @_;
-
-    ## .
-    return
-        (($fn ne "-") ? new IO::File ($fn, $write_p ? O_WRONLY : O_RDONLY)
-         : $write_p ? STDOUT
-         : STDIN);
-}
-
-sub close_file {
-    my ($f) = @_;
-    close ($f)
-        unless ($f eq STDIN || $f eq STDOUT);
-}
 
 sub init_module {
     my ($config, $module) = @_;
