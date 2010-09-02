@@ -85,10 +85,11 @@ sub init_modules {
 }
 
 sub process_file {
-    my ($model, $modules, $filename) = @_;
+    my ($p_ref, $filename) = @_;
+    my $model       = $p_ref->{"model"};
+    my $modules     = $p_ref->{"modules"};
     my $uri
         = URI::file->new_abs ($filename);
-    ## FIXME: implement proper escaping
     my $uri_s
         = $uri->as_string ();
     my $subject = new RDF::Redland::URINode ($uri_s);
@@ -236,6 +237,10 @@ my $model = new RDF::Redland::Model ($sto, "");
 my %the_modules = ();
 init_modules ($config, \%the_modules, @module_list);
 
+my %process_info
+    = ("config"     => $config,
+       "model"      => $model,
+       "modules"    => \%the_modules);
 foreach my $i (@files_from) {
     my $in = open_file ($i, 0);
     unless (defined ($in)) {
@@ -247,11 +252,11 @@ foreach my $i (@files_from) {
         if ($null_p);
     while (<$in>) {
         chop ();
-        process_file ($model, \%the_modules, $_);
+        process_file (\%process_info, $_);
     }
 }
 foreach my $file (@ARGV) {
-    process_file ($model, \%the_modules, $file);
+    process_file (\%process_info, $file);
 }
 
 {
