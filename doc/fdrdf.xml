@@ -25,6 +25,8 @@
 
           <!ENTITY urlecmwf
                    "http://www.ecmwf.int/">
+          <!ENTITY urlfile
+                   "http://www.darwinsys.com/file/">
           <!ENTITY urlgribapi
                    "&urlecmwf;products/data/software/grib_api.html">
           <!ENTITY urllibcman
@@ -261,6 +263,23 @@
 
     <variablelist>
       <varlistentry>
+        <term><literal>file</literal></term>
+        <listitem>
+          <para>Guess a <acronym>MIME</acronym> type for file and record
+            it as a single untyped literal.</para>
+
+          <para>Requires:
+            <link xlink:href="&url;">file(1)</link>.</para>
+
+          <para>Its description prefix is:
+            <link
+               xlink:href="uuid:a2cb5fd0-4e89-4d8a-a009-dc42c45bbcc5#"
+               />.</para>
+          <para></para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
         <term><literal>grib</literal></term>
         <listitem>
           <para>Process file with <command>grib_ls</command>
@@ -387,6 +406,9 @@
 
     <para>For further information, please see:
       <itemizedlist>
+        <listitem><simpara
+                     ><link xlink:href="&urlfile;"
+                            /></simpara></listitem>
         <listitem><simpara
                      ><link xlink:href="&urlgribapi;"
                             /></simpara></listitem>
