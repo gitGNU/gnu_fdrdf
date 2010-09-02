@@ -269,7 +269,7 @@
             it as a single untyped literal.</para>
 
           <para>Requires:
-            <link xlink:href="&url;">file(1)</link>.</para>
+            <link xlink:href="&urlfile;">file(1)</link>.</para>
 
           <para>Its description prefix is:
             <link
