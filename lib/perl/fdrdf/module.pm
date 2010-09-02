@@ -64,10 +64,18 @@ sub module_add_to_tag
 sub module_invoke_tag
 {
     my ($e_ref, $tag, @args) = @_;
+    my @values = ();
+    my $count = 0;
     foreach my $ref (@${$e_ref->{"tags"}->{$tag}}) {
         my ($sub_ref, @args1) = @$ref;
-        &$sub_ref (@args1, @args);
+        my $r = &$sub_ref (@args1, @args);
+        push (@values, $r)
+            if (wantarray ());
+        $count++;
     }
+
+    ## .
+    return wantarray () ? @values : $count;
 }
 
 1;
