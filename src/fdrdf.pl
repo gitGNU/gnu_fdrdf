@@ -66,8 +66,7 @@ sub check_module_tags {
               $modules->{$tag}->{$name} = $e_ref;
               last SWITCH;
           }
-          print STDERR
-              "$progname: Warning: Unknown module tag $tag; ignored\n";
+          warn ("Unknown module tag $tag; ignored\n");
       }
     }
 }
@@ -150,6 +149,17 @@ sub version {
            . " and redistribute it.\n"
            . "There is NO WARRANTY, to the extent permitted"
            . " by law.\n");
+}
+
+my $warnings_p;
+BEGIN {
+    $SIG{"__DIE__"} = sub {
+        die ("$progname: ", @_);
+    };
+    $SIG{"__WARN__"} = sub {
+        warn ("$progname: Warning: ", @_)
+            if ($warnings_p);
+    };
 }
 
 my @config_files = ();
