@@ -62,7 +62,7 @@ sub check_module_tags {
         = module_tags ($e_ref);
     foreach my $tag (@tags) {
       SWITCH: {
-          if ($tag eq "io") {
+          if (exists ($modules->{$tag})) {
               $modules->{$tag}->{$name} = $e_ref;
               last SWITCH;
           }
@@ -244,7 +244,8 @@ my $config
     = new RDF::Redland::Model ($sto, "");
 my $model = new RDF::Redland::Model ($sto, "");
 
-my %the_modules = ();
+my %the_modules
+    = ("io"     => { });
 init_modules ($config, \%the_modules, @module_list);
 
 my %process_info
