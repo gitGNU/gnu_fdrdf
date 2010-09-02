@@ -163,7 +163,7 @@
         <term xml:space='default'>
           <option>--config-file</option
           ><literal>=</literal
-          ><option>RDF-FILE</option>
+          ><replaceable>RDF-FILE</replaceable>
         </term>
         <listitem>
           <para>Read configuration from
@@ -178,7 +178,7 @@
         <term xml:space='default'>
           <option>--modules</option
           ><literal>=</literal
-          ><option>MODULES</option>
+          ><replaceable>MODULES</replaceable>
         </term>
         <listitem>
           <para>Specify the modules to process the files with.</para>
@@ -190,7 +190,7 @@
         <term xml:space='default'>
           <option>--output</option
           ><literal>=</literal
-          ><option>FILE</option>
+          ><replaceable>FILE</replaceable>
         </term>
         <listitem>
           <para>Write the result to the specified
@@ -202,9 +202,9 @@
       <varlistentry>
         <term><option>-T</option></term>
         <term xml:space='default'>
-          <option>--files-from</option>
-          <literal>=</literal>
-          <replaceable>FILE</replaceable>
+          <option>--files-from</option
+          ><literal>=</literal
+          ><replaceable>FILE</replaceable>
         </term>
         <listitem>
           <para>Read the list of files to process from
@@ -216,9 +216,9 @@
       <varlistentry>
         <term><option>-t</option></term>
         <term>
-          <option>--output-format</option>
-          <literal>=</literal>
-          <replaceable>FORMAT</replaceable>
+          <option>--output-format</option
+          ><literal>=</literal
+          ><replaceable>FORMAT</replaceable>
         </term>
         <listitem>
           <para>Specify the output serialization, as supported by the
