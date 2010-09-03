@@ -23,10 +23,16 @@
 
           <!ENTITY fdsection   "1">
 
+          <!ENTITY urlbaseencs
+                   "http://www.rfc-editor.org/rfc/rfc4648.txt">
+          <!ENTITY urldigestsha1
+                   "http://search.cpan.org/perldoc?Digest::SHA1">
           <!ENTITY urlecmwf
                    "http://www.ecmwf.int/">
           <!ENTITY urlfile
                    "http://www.darwinsys.com/file/">
+          <!ENTITY urlfips-180-3
+"http://csrc.nist.gov/publications/fips/fips180-3/fips180-3_final.pdf">
           <!ENTITY urlgribapi
                    "&urlecmwf;products/data/software/grib_api.html">
           <!ENTITY urllibcman
@@ -295,6 +301,29 @@
       </varlistentry>
 
       <varlistentry>
+        <term><literal>sha1</literal></term>
+        <listitem>
+          <para>Compute
+            <link xlink:href="&urlfips-180-3;">FIPS 180-3</link>
+            <acronym>SHA-1</acronym>
+            hash function over the contents of the file
+            and record the results in the
+            <link xlink:href="&urlbaseencs;">Base64</link>
+            form.
+          </para>
+
+          <para>Requires:
+            <link xlink:href="&urldigestsha1;"
+                  ><package>Digest::SHA-1</package></link>.</para>
+
+          <para>Its description prefix is:
+            <link
+               xlink:href="uuid:eb1d54d8-b67d-11df-9eec-4040a5e6bfa3#sha1"
+               />.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
         <term><literal>stat</literal></term>
         <listitem>
           <para>Perform
@@ -407,7 +436,16 @@
     <para>For further information, please see:
       <itemizedlist>
         <listitem><simpara
+                     ><link xlink:href="&urlbaseencs;"
+                            /></simpara></listitem>
+        <listitem><simpara
+                     ><link xlink:href="&urldigestsha1;"
+                            /></simpara></listitem>
+        <listitem><simpara
                      ><link xlink:href="&urlfile;"
+                            /></simpara></listitem>
+        <listitem><simpara
+                     ><link xlink:href="&urlfips-180-3;"
                             /></simpara></listitem>
         <listitem><simpara
                      ><link xlink:href="&urlgribapi;"
