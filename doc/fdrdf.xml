@@ -35,6 +35,8 @@
 "http://csrc.nist.gov/publications/fips/fips180-3/fips180-3_final.pdf">
           <!ENTITY urlgribapi
                    "&urlecmwf;products/data/software/grib_api.html">
+          <!ENTITY urlgdalinfo
+                   "http://www.gdal.org/">
           <!ENTITY urllibcman
                    "http://www.gnu.org/software/libc/manual/">
           <!ENTITY urllibcmanargp
@@ -286,6 +288,23 @@
       </varlistentry>
 
       <varlistentry>
+        <term><literal>gdalinfo</literal></term>
+        <listitem>
+          <para>Process file with <command>gdalinfo</command> and record
+            the metadata returned.</para>
+
+          <para>Requires:
+            <link xlink:href="&urlgdalinfo;"
+                  ><package>GDAL</package></link>.</para>
+
+          <para>Its description prefix is:
+            <link
+               xlink:href="uuid:ea1a00f1-68ba-4739-aa7e-f74967ce5eb8#gdalinfo."
+               />.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
         <term><literal>grib</literal></term>
         <listitem>
           <para>Process file with <command>grib_ls</command>
@@ -446,6 +465,9 @@
                             /></simpara></listitem>
         <listitem><simpara
                      ><link xlink:href="&urlfips-180-3;"
+                            /></simpara></listitem>
+        <listitem><simpara
+                     ><link xlink:href="&urlgdalinfo;"
                             /></simpara></listitem>
         <listitem><simpara
                      ><link xlink:href="&urlgribapi;"
