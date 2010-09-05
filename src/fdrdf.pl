@@ -190,7 +190,7 @@ sub version {
            . " by law.\n");
 }
 
-my $warnings_p;
+my $warnings_p = 1;
 BEGIN {
     $SIG{"__DIE__"} = sub {
         die ("$progname: ", @_);
