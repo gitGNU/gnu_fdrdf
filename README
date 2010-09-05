@@ -1,0 +1,94 @@
+README  -*- Text -*-
+
+* What is File (meta)Data to RDF (FDRDF)?
+
+	The File (meta)Data to RDF (FDRDF) tool builds a catalogue of
+	descriptions of the files specified.
+
+	The descriptions currently include:
+
+	* file status (as reported by the `stat' system call);
+
+	* SHA-1 hash over the file contents;
+
+	* file MIME type (as guessed by the `file' tool);
+
+	* geospatial metadata (as reported by `gdalinfo');
+
+	* GRIB file composition (as reported by `grib_ls'.)
+
+	The current status of this package is: ``bare bones''.
+
+* Why FDRDF?
+
+	... There're a plenty of packages that aim at cataloguing
+	digital data archives -- such as the archives of digital audio
+	and video records.  Unfortunately, what we've encountered were
+	the tasks which lie outside of the scope of such programs.
+	Namely, it was observed that a typical cataloguing software:
+
+	* is oriented towards one or more data representations in a
+	  single problem domain; (say, only works with audio records
+	  in Ogg/Vorbis format);
+
+	* uses an ad-hoc database schema and (or) data format, that no
+	  other software can understand;
+
+	* provides no suitable interface for the other software to
+	  control it and access its data; most of the time, only a
+	  graphical user interface is provided.
+
+	This software tries a different approach:
+
+	* the ``base'' tool is problem domain- and format-agnostic;
+	  instead, it relies on a set of ``modules'' (which could
+	  either be implemented wholly in Perl, or be Perl wrappers
+	  around non-Perl tools and libraries) for gathering specific
+	  metadata;
+
+	* the metadata gathered are recorded as an RDF model and are
+	  output in one of the Redland RDF library-supported
+	  representations (at the time of writing: RDF-XML or
+	  Ntriples);
+
+	* it's designed to be run from Shell, so it's possible to use
+	  it from any software capable of doing a fork(2) + exec(2)
+	  system calls combination.
+
+	Please note, however, that the modules themselves do currently
+	use ad-hoc RDF schemata, and the particular keys (URI's) are
+	still subject to change!
+
+	It's expected that as the experience working with particular
+	file formats' metadata will built up, and the requirements
+	will be defined, the RDF schemata will be standardized.
+
+* Availability
+
+	The latest versions of the package should be listed on its
+	home page at:
+
+    http://lhc.am-1.org/lhc/fdrdf/
+
+* The instructions
+
+	The installation is described in `INSTALL'.
+
+	For usage, check the manual page in `doc/fdrdf.1'.  For quick
+	reference, look at the `$ fdrdf --help' output.
+
+* History
+
+	The most part of the 0.1 version of this package was written
+	by Ivan Shmakov, August through September, 2010.  The `grib',
+	`file' and `gdalinfo' modules were written by Svetlana
+	Zelenina (with Ivan Shmakov occasionally looking over the
+	shoulder.)
+
+	Ivan Shmakov <ivan@main.uusia.org>
+
+Local variables:
+fill-column: 72
+indent-tabs-mode: t
+End:
+README ends here

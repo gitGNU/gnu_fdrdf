@@ -1,0 +1,27 @@
+INSTALL  -*- Text -*-
+
+        The installation of FDRDF is as simple as doing (as `root'):
+
+# make install 
+
+        But one's encouraged to check whether the settings at the top of
+        `Makefile' match the particular Perl setup.
+
+        It's possible to install the package under a regular user's home
+        directory (assuming PATH includes "${HOME}/bin" and PERLLIB
+        includes "${HOME}/lib/site_perl"):
+
+$ make prefix="$HOME" install 
+
+        For packaging purposes, it may be convenient to use `DESTDIR',
+        like:
+
+$ make DESTDIR="${PWD}/debian/dist" \
+      prefix=/usr perllibdir=/usr/share/perl5 \
+      install 
+
+Local variables:
+fill-column: 72
+indent-tabs-mode: nil
+End:
+INSTALL ends here
