@@ -115,10 +115,16 @@ sub process_chunk {
     my ($h_ref, $tag, $io1, @args) = @_;
     my $chunk_size = 262144;
 
+    unless (-f $io1) {
+        warn ("not a regular file; will not process in chunks");
+        ## .
+        return undef;
+    }
+
     open (my $io_c, "<&", $io1);
     binmode ($io1);
     unless (sysseek ($io_c, 0, 0)) {
-        warn ("$file: cannot lseek(2); will not process in chunks");
+        warn ("cannot lseek(2); will not process in chunks");
         ## .
         return undef;
     }
