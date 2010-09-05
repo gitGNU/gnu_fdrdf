@@ -308,9 +308,10 @@
         <term><literal>grib</literal></term>
         <listitem>
           <para>Process file with <command>grib_ls</command>
-            (which is a part of the
-            <link xlink:href="&urlgribapi;">GRIB API</link>
-            package) and record the fields' descriptions.</para>
+            and record the fields' descriptions.</para>
+
+          <para>Requires:
+            <link xlink:href="&urlgribapi;">GRIB API</link>.</para>
 
           <para>Its description prefix is:
             <link
