@@ -288,6 +288,23 @@
       </varlistentry>
 
       <varlistentry>
+        <term><literal>gdal</literal></term>
+        <listitem>
+          <para>Extract metadata from geospatial data file with
+            <package>Geo::GDAL</package>.</para>
+
+          <para>Requires:
+            <link xlink:href="&urlgdalinfo;"
+                  ><package>Geo::GDAL</package></link>.</para>
+
+          <para>Its description prefix is:
+            <link
+               xlink:href="uuid:4d0235c4-6c10-4c94-b537-1650395bc50b#"
+               />.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
         <term><literal>gdalinfo</literal></term>
         <listitem>
           <para>Process file with <command>gdalinfo</command> and record
