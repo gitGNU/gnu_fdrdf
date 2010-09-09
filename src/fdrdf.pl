@@ -50,7 +50,7 @@ sub init_module {
 
     my $f = "fdrdf/module/" . $module . ".pm";
     eval { require $f; };
-    die ("$m: failed to load: $@")
+    die ("$module: failed to load: $@")
         if ($@);
 
     my $pkg = "fdrdf::module::" . $module;
