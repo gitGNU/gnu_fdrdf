@@ -19,6 +19,9 @@
 ## Based on: fcfs-xml.pl  (2010-04-29 11:10:52+00:00.)
 ## Based on: dda-stage.pl (2009-09-29 15:17:13+00:00.)
 
+use strict;
+# use warnings;
+
 # use DateTime;
 use English qw(-no_match_vars);
 use Getopt::Mixed "nextOption";
@@ -30,10 +33,13 @@ use UUID;
 use fdrdf::module qw(&module_entry &module_tags &module_invoke_tag);
 use fdrdf::util;
 
+my $progname;
 $progname = $PROGRAM_NAME;
 $progname =~ s/^.*\///;
 
 ## NB: a la GNU Autotools
+my ($PACKAGE, $PACKAGE_BUGREPORT);
+my ($PACKAGE_NAME, $PACKAGE_VERSION);
 $PACKAGE = "fdrdf";
 $PACKAGE_NAME = "FDRDF";
 $PACKAGE_VERSION = "0.1";
@@ -152,6 +158,7 @@ sub process_chunk {
 ## FIXME: use the Perl port of GNU Argp
 
 sub help {
+    my $p = $progname;
     print (""
            . "Usage: " . $p . " [OPTION...] FILE...\n"
            . "  or:  " . $p . " [OPTION...] -T FILE [FILE...]\n"
@@ -223,7 +230,7 @@ Getopt::Mixed::init ("?      help>?"
                      . " o=s output>o"
                      . " t=s output-format>t");
 {
-    my $optstrip, $value, $_;
+    my ($optstrip, $value, $_);
     ## FIXME: should distinguish --FOO= from --FOO (for --FOO[=ARG])
     while (($optstrip, $value, $_) = nextOption ()) {
       SWITCH: {
@@ -317,7 +324,7 @@ foreach my $file (@ARGV) {
 }
 
 {
-    my $uuid_bit, $uuid_s;
+    my ($uuid_bit, $uuid_s);
     UUID::generate ($uuid_bit);
     UUID::unparse  ($uuid_bit, $uuid_s);
     my $base
