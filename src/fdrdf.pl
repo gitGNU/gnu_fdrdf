@@ -46,19 +46,19 @@ $PACKAGE_VERSION = "0.1";
 $PACKAGE_BUGREPORT = 'ivan@theory.asu.ru';
 
 sub init_module {
-    my ($config, $module) = @_;
+    my ($config, $name) = @_;
 
-    my $f = "fdrdf/module/" . $module . ".pm";
+    my $f = "fdrdf/module/" . $name . ".pm";
     eval { require $f; };
-    die ("$module: failed to load: $@")
+    die ("$name: failed to load: $@")
         if ($@);
 
-    my $pkg = "fdrdf::module::" . $module;
-    my $handle
-        = new $pkg (module_entry (), $config);
+    my $class = "fdrdf::module::" . $name;
+    my $module
+        = new $class (module_entry (), $config);
 
     ## .
-    return $handle;
+    return $module;
 }
 
 sub check_module_tags {
@@ -78,14 +78,14 @@ sub check_module_tags {
 }
 
 sub init_modules {
-    my ($config, $handles, @modules) = @_;
-    foreach my $m (@modules) {
+    my ($config, $modules, @names) = @_;
+    foreach my $name (@names) {
         next
-            if (exists $$handles{$m});
-        my $handle;
-        $handle = init_module ($config, $m)
-            or die ("$m: failed to initialize module");
-        check_module_tags ($handles, $m, $handle);
+            if (exists $modules->{$name});
+        my $module
+            = init_module ($config, $name)
+            or die ("$name: failed to initialize module");
+        check_module_tags ($modules, $name, $module);
     }
 }
 
@@ -103,10 +103,10 @@ sub process_file {
 
     ## process tag: io
     foreach my $m (keys (%{$modules->{"io"}})) {
-        my $handle = $modules->{"io"}->{$m};
+        my $module = $modules->{"io"}->{$m};
         open (my $io, "<&", $io1)
             or die ();
-        module_invoke_tag ($handle, "io", $model, $subject, $io);
+        module_invoke_tag ($module, "io", $model, $subject, $io);
         close ($io);
     }
 
