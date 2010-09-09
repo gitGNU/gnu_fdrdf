@@ -37,7 +37,6 @@ BEGIN {
 
 sub test {
     my ($relation, $model, $subject, $io) = @_;
-    print STDERR "test: " . join (", ", @_) . "\n";
 
     my $s = $subject;
     my $p = $relation;
