@@ -8,6 +8,8 @@ package fdrdf::module::file;
 use strict;
 use warnings;
 
+use RDF::Redland;
+
 use fdrdf::util;
 use fdrdf::module;
 
