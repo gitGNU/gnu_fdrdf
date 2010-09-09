@@ -22,6 +22,16 @@ BEGIN {
     @EXPORT = qw (&new);
     @EXPORT_OK = qw (&process_gdal);
     %EXPORT_TAGS = ();
+
+    ## URI's and prefixes
+    our $module_uri_s
+        = "uuid:19ab9b94-bbd2-11df-8d8b-4040a5e6bfa3";
+    our $conf_prefix
+        = $module_uri_s . "#cf.";
+    our $desc_prefix
+        = "uuid:4d0235c4-6c10-4c94-b537-1650395bc50b#";
+    our $gdal_prefix
+        = $desc_prefix . "gdal.";
 }
 
 sub add_rdf {
@@ -52,11 +62,9 @@ sub process_gdal {
 
 sub new {
     my ($pkg, $e_ref, $config) = @_;
-    my $relation_uri_s
-        = ("uuid:4d0235c4-6c10-4c94-b537-1650395bc50b#"
-           . "gdal.");
+    our ($gdal_prefix);
     my %params
-        = ("prefix" => $relation_uri_s,
+        = ("prefix" => $gdal_prefix,
            "cache"  => {});
     my @handle = (\&process_gdal, \%params);
     module_add_to_tag ($e_ref, "io", \@handle);

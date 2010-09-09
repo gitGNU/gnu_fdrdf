@@ -21,11 +21,17 @@ BEGIN {
     @EXPORT = qw (&new);
     @EXPORT_OK = qw (&process_grib);
     %EXPORT_TAGS = ();
-    our ($desc_prefix, $grib_prefix);
-    $desc_prefix
+
+    ## URI's and prefixes
+    our $module_uri_s
+        = "uuid:e4367fb4-bbd2-11df-8c7b-4040a5e6bfa3";
+    our $conf_prefix
+        = $module_uri_s . "#cf.";
+    our $desc_prefix
         = "uuid:cf81ffce-b43b-11df-b10e-0026b917f4bd#";
-    $grib_prefix
+    our $grib_prefix
         = $desc_prefix . "grib.";
+
     our ($pred_contains, $pred_field_number);
     $pred_contains = $desc_prefix . "contains";
     $pred_field_number = $desc_prefix . "fieldNumber";

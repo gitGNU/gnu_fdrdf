@@ -25,8 +25,15 @@ BEGIN {
     %EXPORT_TAGS = ();
     @EXPORT_OK = qw (&process_new);
 
-    our ($desc_prefix);
-    $desc_prefix = "uuid:eb1d54d8-b67d-11df-9eec-4040a5e6bfa3#";
+    ## URI's and prefixes
+    our $module_uri_s
+        = "uuid:f1e05a1e-bbc2-11df-b3a7-4040a5e6bfa3";
+    our $conf_prefix
+        = $module_uri_s . "#cf.";
+    our $desc_prefix
+        = "uuid:eb1d54d8-b67d-11df-9eec-4040a5e6bfa3#";
+    our $sha1_uri_s
+        = $desc_prefix . "sha1";
 
     our ($chunk_size);
     $chunk_size = 262144;
@@ -83,10 +90,10 @@ sub new {
             = new RDF::Redland::URI ($xsd_prefix . $type);
     }
 
-    our ($desc_prefix);
+    our ($sha1_uri_s);
     {
         my $node
-            = new RDF::Redland::URINode ($desc_prefix . "sha1");
+            = new RDF::Redland::URINode ($sha1_uri_s);
         $params{"node.pred.sha1-base64"} = $node;
     }
 

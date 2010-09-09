@@ -23,6 +23,16 @@ BEGIN {
     @EXPORT = qw (&new);
     %EXPORT_TAGS = ();
     @EXPORT_OK = qw ();
+
+    ## URI's and prefixes
+    our $module_uri_s
+        = "uuid:95ec9414-bbd3-11df-b954-4040a5e6bfa3";
+    our $conf_prefix
+        = $module_uri_s . "#cf.";
+    our $desc_prefix
+        = "uuid:35cef816-b42f-11df-84e9-4040a5e6bfa3#";
+    our $test_uri_s
+        = $desc_prefix . "fdrdf::modules::test";
 }
 
 sub test {
@@ -40,11 +50,9 @@ sub test {
 
 sub new {
     my ($pkg, $e_ref, $config) = @_;
-    my $relation_uri_s
-        = ("uuid:35cef816-b42f-11df-84e9-4040a5e6bfa3#"
-	   . "fdrdf::modules::test");
+    our ($test_uri_s);
     my $relation
-	= new RDF::Redland::URINode ($relation_uri_s);
+	= new RDF::Redland::URINode ($test_uri_s);
     my @handle = (\&test, $relation);
     module_add_to_tag ($e_ref, "io", \@handle);
 

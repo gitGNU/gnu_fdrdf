@@ -23,12 +23,19 @@ BEGIN {
     @EXPORT = qw (&new);
     %EXPORT_TAGS = ();
     @EXPORT_OK = qw ();
-    our ($conf_prefix);
-    $conf_prefix = "uuid:21624fe2-b54f-11df-b9c0-4040a5e6bfa3#cf.";
-    our ($desc_prefix, $num_prefix, $sym_prefix);
-    $desc_prefix = "uuid:2e22aa82-b550-11df-9d5c-4040a5e6bfa3#stat.";
-    $num_prefix  = $desc_prefix . "n.";
-    $sym_prefix  = $desc_prefix . "s.";
+
+    ## URI's and prefixes
+    our $module_uri_s
+        = "uuid:21624fe2-b54f-11df-b9c0-4040a5e6bfa3";
+    our $conf_prefix
+        = $module_uri_s . "#cf.";
+    our $desc_prefix
+        = "uuid:2e22aa82-b550-11df-9d5c-4040a5e6bfa3#stat.";
+    our $num_prefix
+        = $desc_prefix . "n.";
+    our $sym_prefix
+        = $desc_prefix . "s.";
+
     our (@keys_list);
     @keys_list
         = qw(dev ino mode nlink uid gid _rdev size

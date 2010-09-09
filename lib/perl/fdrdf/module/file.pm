@@ -24,6 +24,16 @@ BEGIN {
     @EXPORT = qw (&new);
     %EXPORT_TAGS = ();
     @EXPORT_OK = qw ();
+
+    ## URI's and prefixes
+    our $module_uri_s
+        = "uuid:be8202c2-bbbc-11df-a158-4040a5e6bfa3";
+    our $conf_prefix
+        = $module_uri_s . "#cf.";
+    our $desc_prefix
+        = "uuid:a2cb5fd0-4e89-4d8a-a009-dc42c45bbcc5#file.";
+    our $mime_type_uri_s
+        = $desc_prefix . "mime-type";
 }
 
 sub process_file {
@@ -50,11 +60,9 @@ sub process_file {
 
 sub new {
     my ($pkg, $e_ref, $config) = @_;
-    my $relation_uri_s
-        = ("uuid:a2cb5fd0-4e89-4d8a-a009-dc42c45bbcc5#"
-           . "file.mime-type");
+    our ($mime_type_uri_s);
     my $relation
-        = new RDF::Redland::URINode ($relation_uri_s);
+        = new RDF::Redland::URINode ($mime_type_uri_s);
     my @handle = (\&process_file, $relation);
     module_add_to_tag ($e_ref, "io", \@handle);
 
