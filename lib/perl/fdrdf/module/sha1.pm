@@ -21,9 +21,9 @@ BEGIN {
     $VERSION = 0.1;
 
     @ISA = qw (Exporter);
-    @EXPORT = qw (&new);
+    @EXPORT = qw ();
     %EXPORT_TAGS = ();
-    @EXPORT_OK = qw (&process_new);
+    @EXPORT_OK = qw ();
 
     ## URI's and prefixes
     our $module_uri_s

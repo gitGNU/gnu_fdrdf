@@ -20,7 +20,7 @@ BEGIN {
     $VERSION = 0.1;
 
     @ISA = qw (Exporter);
-    @EXPORT = qw (&new);
+    @EXPORT = qw ();
     %EXPORT_TAGS = ();
     @EXPORT_OK = qw ();
 
