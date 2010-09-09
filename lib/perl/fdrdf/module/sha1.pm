@@ -44,39 +44,44 @@ BEGIN {
 }
 
 sub process_new {
-    my ($p_ref, $model, $subject) = @_;
-    my (%handle);
+    my ($self, $model, $subject) = @_;
     my $digest = Digest::SHA1->new ();
-
-    my @args = (@_, $digest);
-    $handle{"chunk"}    = sub { process_chunk (@args, @_) };
-    $handle{"close"}    = sub { process_close (@args, @_) };
+    my $chunks = {
+        "module"    => $self,
+        "model"     => $model,
+        "subject"   => $subject,
+        "digest"    => $digest
+    };
+    bless ($chunks, "fdrdf::module::sha1::chunk");
 
     ## .
-    return
-        \%handle;
+    $chunks;
 }
 
-sub process_close {
-    my ($p_ref, $model, $subject, $digest) = @_;
+package fdrdf::module::sha1::chunk;
 
-    my $unpadded = $digest->b64digest ();
+sub close {
+    my ($self) = @_;
+
+    my $unpadded = $self->{"digest"}->b64digest ();
     ## NB: assuming that SHA-1 takes 160 bits = 27 Base64 chars
     my $d = $unpadded . "=";
-    my $t = $p_ref->{"uri.type.xsd.base64Binary"};
-    my $s = $subject;
-    my $p = $p_ref->{"node.pred.sha1-base64"};
+    my $t = $self->{"module"}->{"uri.type.xsd.base64Binary"};
+    my $s = $self->{"subject"};
+    my $p = $self->{"module"}->{"node.pred.sha1-base64"};
     my $o
         = new RDF::Redland::LiteralNode ($d, $t);
 
-    $model->add_statement ($s, $p, $o);
+    $self->{"model"}->add_statement ($s, $p, $o);
 }
 
-sub process_chunk {
-    my ($p_ref, $model, $subject, $digest, $chunk) = @_;
+sub add_chunk {
+    my ($self, $chunk) = @_;
 
-    $digest->add($chunk);
+    $self->{"digest"}->add ($chunk);
 }
+
+package fdrdf::module::sha1;
 
 sub new {
     my ($pkg, $e_ref, $config) = @_;

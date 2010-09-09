@@ -135,23 +135,23 @@ sub process_chunk {
         return undef;
     }
 
-    my @pointers = ();
+    my @consumers = ();
     foreach my $m (keys (%$h_ref)) {
-        push (@pointers, 
+        push (@consumers,
               module_invoke_tag ($h_ref->{$m}, $tag, @args));
     }
 
     my ($r, $buf);
     while (($r = sysread ($io_c, $buf, $chunk_size)) > 0) {
-        foreach my $p (@pointers) {
-            $p->{"chunk"} ($buf);
+        foreach my $c (@consumers) {
+            $c->add_chunk ($buf);
         }
     }
     die ()
         unless (defined ($r));
 
-    foreach my $p (@pointers) {
-        $p->{"close"} ();
+    foreach my $c (@consumers) {
+        $c->close ();
     }
 }
 
