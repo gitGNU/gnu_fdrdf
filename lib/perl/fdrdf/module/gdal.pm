@@ -12,7 +12,6 @@ use Geo::GDAL;
 use RDF::Redland;
 
 use fdrdf::module;
-use fdrdf::util;
 
 BEGIN {
     require Exporter;
@@ -51,7 +50,6 @@ sub add_rdf {
 sub process_gdal {
     my ($p_ref, $model, $subject, $io) = @_;
 
-    drop_cloexec ($io);
     my $file = ("/dev/fd/" . $io->fileno ());
     my $ds = Geo::GDAL::Open ($file, "ReadOnly");
     my $meta = $ds->GetMetadata ();
