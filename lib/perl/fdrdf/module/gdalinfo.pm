@@ -10,7 +10,7 @@ use warnings;
 
 use RDF::Redland;
 
-use fdrdf::module;
+use fdrdf::proto::io;
 use fdrdf::util;
 use fdrdf::xfmcache;
 use fdrdf::xfmcache::proto;
@@ -19,7 +19,7 @@ BEGIN {
     require Exporter;
     our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
     $VERSION = 0.1;
-    @ISA = qw (Exporter);
+    @ISA = qw (Exporter fdrdf::proto::io fdrdf::xfmcache::proto);
     @EXPORT = qw ();
     @EXPORT_OK = qw ();
     %EXPORT_TAGS = ();
@@ -35,6 +35,12 @@ BEGIN {
         = $desc_prefix . "gdalinfo.";
 }
 
+## NB: not an OO method
+sub uri_node {
+    ## .
+    return new RDF::Redland::URINode (@_);
+}
+
 sub add_rdf {
     my ($self, $model, $s, $k, $v) = @_;
     my $p = $self->{"rel.cache"}->transform ($k);
@@ -43,8 +49,8 @@ sub add_rdf {
     $model->add_statement ($s, $p, $o);
 }
 
-sub process_gdalinfo {
-    my ($p_ref, $model, $subject, $io) = @_;
+sub process_io {
+    my ($self, $model, $subject, $io) = @_;
 
     drop_cloexec ($io);
     my $file = ("/dev/fd/" . $io->fileno ());
@@ -65,7 +71,7 @@ sub process_gdalinfo {
             chop;
             if (! /./) {
                 $in_multiline_p = "";
-                add_rdf ($p_ref, $model, $subject, $multiline_key, $multiline);
+                $self->add_rdf ($model, $subject, $multiline_key, $multiline);
                 next LINE;
             }
             warn ("unexpected line in multiline context");
@@ -87,7 +93,7 @@ sub process_gdalinfo {
                 $multiline_key  = $1;
                 $multiline      = "";
             } else {
-                add_rdf ($p_ref, $model, $subject, "$1", "$2");
+                $self->add_rdf ($model, $subject, "$1", "$2");
             }
             next LINE;
         }
@@ -100,23 +106,27 @@ sub process_gdalinfo {
 }
 
 sub new {
-    my ($pkg, $e_ref, $config) = @_;
-    our ($gdalinfo_prefix);
-    my %params
-        = ("prefix" => $gdalinfo_prefix,
-           "spec_pfx" => $gdalinfo_prefix,
-           "cache"  => {});
-    my @handle = (\&process_gdalinfo, \%params);
-    module_add_to_tag ($e_ref, "io", \@handle);
+    my ($class, $config) = @_;
+
+    our ($module_uri_s, $conf_prefix);
+    our ($desc_prefix,  $gdalinfo_prefix);
+    my $self = {
+        "module"    => uri_node ($module_uri_s),
+        "conf_pfx"  => $conf_prefix,
+        "desc_pfx"  => $desc_prefix,
+        "spec_pfx"  => $gdalinfo_prefix
+    };
+
+    bless ($self, $class);
 
     {
         my $xfm
-            = fdrdf::xfmcache::proto::new_uri_node_transform (\%params);
-        $params{"rel.cache"} = new fdrdf::xfmcache ($xfm);
+            = $self->new_uri_node_transform ();
+        $self->{"rel.cache"} = new fdrdf::xfmcache ($xfm);
     }
 
     ## .
-    return $e_ref;
+    $self;
 }
 
 1;

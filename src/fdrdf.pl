@@ -30,7 +30,6 @@ use RDF::Redland;
 use URI::file;
 use UUID;
 
-use fdrdf::module qw(&module_entry &module_tags &module_invoke_tag);
 use fdrdf::util;
 
 my $progname;
@@ -55,21 +54,21 @@ sub init_module {
 
     my $class = "fdrdf::module::" . $name;
     my $module
-        = new $class (module_entry (), $config);
+        = new $class ($config);
 
     ## .
     return $module;
 }
 
 sub check_module_tags {
-    my ($modules, $name, $e_ref) = @_;
+    my ($modules, $name, $module) = @_;
 
     my @tags
-        = module_tags ($e_ref);
+        = keys (%{$module->module_does ()});
     foreach my $tag (@tags) {
       SWITCH: {
           if (exists ($modules->{$tag})) {
-              $modules->{$tag}->{$name} = $e_ref;
+              $modules->{$tag}->{$name} = $module;
               last SWITCH;
           }
           warn ("Unknown module tag $tag; ignored\n");
@@ -106,12 +105,12 @@ sub process_file {
         my $module = $modules->{"io"}->{$m};
         open (my $io, "<&", $io1)
             or die ();
-        module_invoke_tag ($module, "io", $model, $subject, $io);
+        $module->process_io ($model, $subject, $io);
         close ($io);
     }
 
     ## process tag: chunk
-    process_chunk ($modules->{"chunk"}, "chunk", $io1,
+    process_chunk ($modules->{"chunks"}, "chunks", $io1,
                    $model, $subject);
 
     close_file ($io1);
@@ -138,7 +137,7 @@ sub process_chunk {
     my @consumers = ();
     foreach my $m (keys (%$h_ref)) {
         push (@consumers,
-              module_invoke_tag ($h_ref->{$m}, $tag, @args));
+              $h_ref->{$m}->process_chunks (@args));
     }
 
     my ($r, $buf);
@@ -298,7 +297,7 @@ my $model = new RDF::Redland::Model ($sto, "");
 
 my %the_modules
     = ("io"     => { },
-       "chunk"  => { });
+       "chunks" => { });
 init_modules ($config, \%the_modules, @module_list);
 
 my %process_info

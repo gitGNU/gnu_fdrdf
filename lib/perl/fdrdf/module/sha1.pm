@@ -11,7 +11,7 @@ use warnings;
 use Digest::SHA1;
 use RDF::Redland;
 
-use fdrdf::module;
+use fdrdf::proto::chunks;
 
 BEGIN {
     use Exporter ();
@@ -20,7 +20,7 @@ BEGIN {
     # set the version for version checking
     $VERSION = 0.1;
 
-    @ISA = qw (Exporter);
+    @ISA = qw (Exporter fdrdf::proto::chunks);
     @EXPORT = qw ();
     %EXPORT_TAGS = ();
     @EXPORT_OK = qw ();
@@ -43,7 +43,13 @@ BEGIN {
     @xsd_types_list = qw(base64Binary);
 }
 
-sub process_new {
+## NB: not an OO method
+sub uri_node {
+    ## .
+    return new RDF::Redland::URINode (@_);
+}
+
+sub process_chunks {
     my ($self, $model, $subject) = @_;
     my $digest = Digest::SHA1->new ();
     my $chunks = {
@@ -68,7 +74,7 @@ sub close {
     my $d = $unpadded . "=";
     my $t = $self->{"module"}->{"uri.type.xsd.base64Binary"};
     my $s = $self->{"subject"};
-    my $p = $self->{"module"}->{"node.pred.sha1-base64"};
+    my $p = $self->{"module"}->{"rel.sha1"};
     my $o
         = new RDF::Redland::LiteralNode ($d, $t);
 
@@ -84,28 +90,27 @@ sub add_chunk {
 package fdrdf::module::sha1;
 
 sub new {
-    my ($pkg, $e_ref, $config) = @_;
+    my ($class, $config) = @_;
 
-    my %params;
-    my @handle = (\&process_new, \%params);
+    our ($module_uri_s, $conf_prefix);
+    our ($desc_prefix,  $sha1_uri_s);
+    my $self = {
+        "module"    => uri_node ($module_uri_s),
+        "conf_pfx"  => $conf_prefix,
+        "desc_pfx"  => $desc_prefix
+    };
+    $self->{"rel.sha1"} = uri_node ($sha1_uri_s);
 
     our ($xsd_prefix, @xsd_types_list);
     foreach my $type (@xsd_types_list) {
-        $params{"uri.type.xsd." . $type}
+        $self->{"uri.type.xsd." . $type}
             = new RDF::Redland::URI ($xsd_prefix . $type);
     }
 
-    our ($sha1_uri_s);
-    {
-        my $node
-            = new RDF::Redland::URINode ($sha1_uri_s);
-        $params{"node.pred.sha1-base64"} = $node;
-    }
-
-    module_add_to_tag ($e_ref, "chunk", \@handle);
+    bless ($self, $class);
 
     ## .
-    return $e_ref;
+    $self;
 }
 
 1;

@@ -10,7 +10,7 @@ use warnings;
 
 use RDF::Redland;
 
-use fdrdf::module;
+use fdrdf::proto::io;
 
 BEGIN {
     use Exporter ();
@@ -19,7 +19,7 @@ BEGIN {
     # set the version for version checking
     $VERSION = 0.1;
 
-    @ISA = qw (Exporter);
+    @ISA = qw (Exporter fdrdf::proto::io);
     @EXPORT = qw ();
     %EXPORT_TAGS = ();
     @EXPORT_OK = qw ();
@@ -47,20 +47,20 @@ BEGIN {
 }
 
 sub process_stat {
-    my ($p_ref, $model, $subject, @stat) = @_;
+    my ($self, $model, $subject, @stat) = @_;
     our (@keys_list);
 
     my $s = $subject;
     my @r = @stat;
     my $num
-        = $$p_ref{"uri.type.xs.integer"};
+        = $self->{"uri.type.xs.integer"};
     for (my $i = 0; $i <= $#keys_list; $i++) {
         my $key = $keys_list[$i];
         next
             if ($key =~ /^_/);
         {
             my $p
-                = $$p_ref{"node.pred.numeric"}{$key};
+                = $self->{"node.pred.numeric"}->{$key};
             my $o
                 = new RDF::Redland::LiteralNode ("" . $r[$i], $num);
             $model->add_statement ($s, $p, $o);
@@ -68,22 +68,29 @@ sub process_stat {
     }
 }
 
-sub process_file {
-    my ($p_ref, $model, $subject, $io) = @_;
+sub process_io {
+    my ($self, $model, $subject, $io) = @_;
 
     ## FIXME: cannot do lstat () here
     my @r = stat ($io);
-    process_stat ($p_ref, $model, $subject, @r);
+    $self->process_stat ($model, $subject, @r);
 }
 
 sub new {
-    my ($pkg, $e_ref, $config) = @_;
-    our ($num_prefix, $sym_prefix);
+    my ($class, $config) = @_;
+
+    our ($module_uri_s, $conf_prefix);
+    our ($desc_prefix);
+    our ($num_prefix,   $sym_prefix);
+    my $self = {
+        "module"    => uri_node ($module_uri_s),
+        "conf_pfx"  => $conf_prefix,
+        "desc_pfx"  => $desc_prefix,
+        "num_pfx"   =>  $num_prefix,
+        "sym_pfx"   =>  $sym_prefix
+    };
     our (@keys_list);
     our ($xs_prefix, @xs_types_list);
-    my %params;
-    my @handle = (\&process_file, \%params);
-
     foreach my $type (@xs_types_list) {
         $params{"uri.type.xs." . $type}
             = new RDF::Redland::URI ($xs_prefix . $type);
@@ -92,13 +99,12 @@ sub new {
         next
             if ($key =~ /^_/);
         my $uri_s = $num_prefix . $key;
-        $params{"node.pred.numeric"}{$key}
+        $self->{"node.pred.numeric"}->{$key}
             = new RDF::Redland::URINode ($uri_s);
     }
-    module_add_to_tag ($e_ref, "io", \@handle);
 
     ## .
-    return $e_ref;    
+    $self;
 }
 
 1;

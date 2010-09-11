@@ -10,8 +10,8 @@ use warnings;
 
 use RDF::Redland;
 
+use fdrdf::proto::io;
 use fdrdf::util;
-use fdrdf::module;
 
 BEGIN {
     use Exporter ();
@@ -20,7 +20,7 @@ BEGIN {
     # set the version for version checking
     $VERSION = 0.1;
 
-    @ISA = qw (Exporter);
+    @ISA = qw (Exporter fdrdf::proto::io);
     @EXPORT = qw ();
     %EXPORT_TAGS = ();
     @EXPORT_OK = qw ();
@@ -36,8 +36,14 @@ BEGIN {
         = $desc_prefix . "mime-type";
 }
 
-sub process_file {
-    my ($relation, $model, $subject, $io) = @_;
+## NB: not an OO method
+sub uri_node {
+    ## .
+    return new RDF::Redland::URINode (@_);
+}
+
+sub process_io {
+    my ($self, $model, $subject, $io) = @_;
 
     drop_cloexec ($io);
     my @cmd
@@ -52,22 +58,28 @@ sub process_file {
     chop;
     my $type = $_;
     my $s = $subject;
-    my $p = $relation;
+    my $p = $self->{"rel.mime-type"};
     my $o = new RDF::Redland::LiteralNode ("" . $type);
 
     $model->add_statement ($s, $p, $o);
 }
 
 sub new {
-    my ($pkg, $e_ref, $config) = @_;
-    our ($mime_type_uri_s);
-    my $relation
-        = new RDF::Redland::URINode ($mime_type_uri_s);
-    my @handle = (\&process_file, $relation);
-    module_add_to_tag ($e_ref, "io", \@handle);
+    my ($class, $config) = @_;
+
+    our ($module_uri_s, $conf_prefix);
+    our ($desc_prefix,  $mime_type_uri_s);
+    my $self = {
+        "module"    => uri_node ($module_uri_s),
+        "conf_pfx"  => $conf_prefix,
+        "desc_pfx"  => $desc_prefix
+    };
+    $self->{"rel.mime-type"} = uri_node ($mime_type_uri_s);
+
+    bless ($self, $class);
 
     ## .
-    return $e_ref;
+    $self;
 }
 
 1;
