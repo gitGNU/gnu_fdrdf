@@ -12,6 +12,8 @@ use Geo::GDAL;
 use RDF::Redland;
 
 use fdrdf::module;
+use fdrdf::xfmcache;
+use fdrdf::xfmcache::proto;
 
 BEGIN {
     require Exporter;
@@ -34,14 +36,8 @@ BEGIN {
 }
 
 sub add_rdf {
-    my ($p_ref, $model, $s, $k, $v) = @_;
-    my $cache = $p_ref->{"cache"};
-    unless (exists ($cache->{$k})) {
-        my $uri_s
-            = ($p_ref->{"prefix"} . $k);
-        $cache->{$k} = new RDF::Redland::URINode ($uri_s);
-    }
-    my $p = $cache->{$k};
+    my ($self, $model, $s, $k, $v) = @_;
+    my $p = $self->{"rel.cache"}->transform ($k);
     my $o = new RDF::Redland::LiteralNode ($v);
 
     $model->add_statement ($s, $p, $o);
@@ -63,9 +59,16 @@ sub new {
     our ($gdal_prefix);
     my %params
         = ("prefix" => $gdal_prefix,
+           "spec_pfx" => $gdal_prefix,
            "cache"  => {});
     my @handle = (\&process_gdal, \%params);
     module_add_to_tag ($e_ref, "io", \@handle);
+
+    {
+        my $xfm
+            = fdrdf::xfmcache::proto::new_uri_node_transform (\%params);
+        $params{"rel.cache"} = new fdrdf::xfmcache ($xfm);
+    }
 
     ## .
     return $e_ref;

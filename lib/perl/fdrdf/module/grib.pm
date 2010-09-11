@@ -12,6 +12,8 @@ use RDF::Redland;
 
 use fdrdf::module;
 use fdrdf::util;
+use fdrdf::xfmcache;
+use fdrdf::xfmcache::proto;
 
 BEGIN {
     require Exporter;
@@ -38,8 +40,7 @@ BEGIN {
 }
 
 sub process_grib {
-    my ($model, $subject, $io) = @_;
-    our ($grib_prefix);
+    my ($self, $model, $subject, $io) = @_;
     our ($pred_contains, $pred_field_number);
     drop_cloexec ($io);
     my @cmd = ("grib_ls", "/dev/fd/" . $io->fileno ());
@@ -86,9 +87,8 @@ sub process_grib {
         }
         for (my $i = 0; $i <= $#values; $i++) {
             my $literal = $values[$i];
-            my $p_u = $grib_prefix . $fields[$i];
             my $p
-                = new RDF::Redland::URINode ($p_u);
+                = $self->{"rel.cache"}->transform ($fields[$i]);
             my $o
                 = new RDF::Redland::LiteralNode ($literal);
             my $st = new RDF::Redland::Statement ($s,  $p,  $o);
@@ -106,7 +106,18 @@ sub process_grib {
 
 sub new {
     my ($pkg, $e_ref, $config) = @_;
-    my @handle = (\&process_grib);
+    our ($grib_prefix);
+    my $self = {
+        "spec_pfx"  => $grib_prefix
+    };
+
+    {
+        my $xfm
+            = fdrdf::xfmcache::proto::new_uri_node_transform ($self);
+        $self->{"rel.cache"} = new fdrdf::xfmcache ($xfm);
+    }
+
+    my @handle = (\&process_grib, $self);
     module_add_to_tag ($e_ref, "io", \@handle);
     ## .
     return $e_ref;
