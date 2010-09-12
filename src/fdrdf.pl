@@ -172,6 +172,14 @@ sub help {
            . " use MODULES to process files\n"
            . "  -o, --output=FILE         "
            . " write result to FILE instead of standard output\n"
+           . "      --storage-name=NAME   "
+           . " use specific storage NAME\n"
+           . "      --storage-options=OPTS"
+           . " use specific storage options (default:\n"
+           . "                            "
+           . "   `new='yes',hash-type='memory'')\n"
+           . "      --storage-type=TYPE   "
+           . " use specific storage TYPE (default: `hashes')\n"
            . "  -T, --files-from=FILE     "
            . " get filenames to process from FILE\n"
            . "  -t, --output-format=FORMAT"
@@ -228,6 +236,12 @@ my $null_p = 0;
 my @files_from = ();
 my $output = "-";
 my $output_format = "rdfxml";
+my $sto_type = "hashes";
+my $sto_name = "";
+my $sto_opts = {
+    "new"       => "yes",
+    "hash-type" => "memory"
+};
 
 Getopt::Mixed::init ("?      help>?"
                      . " V   version>V"
@@ -235,6 +249,9 @@ Getopt::Mixed::init ("?      help>?"
                      . " c=s config-file>c"
                      . " T=s files-from>T"
                      . " m=s modules>m"
+                     . "     storage-name=s"
+                     . "     storage-options=s"
+                     . "     storage-type=s"
                      . " o=s output>o"
                      . " t=s output-format>t");
 {
@@ -266,6 +283,18 @@ Getopt::Mixed::init ("?      help>?"
           }
           if (/^-m|^--modules/) {
               push (@module_list, split (' ', $value));
+              last SWITCH;
+          }
+          if (/^--storage-name/) {
+              $sto_name = $value;
+              last SWITCH;
+          }
+          if (/^--storage-options/) {
+              $sto_opts = $value;
+              last SWITCH;
+          }
+          if (/^--storage-type/) {
+              $sto_type = $value;
               last SWITCH;
           }
           if (/^-o|--output/) {
@@ -302,8 +331,9 @@ my $stc
     = new RDF::Redland::Storage ("hashes", "cf",
                                  { "new"        => "yes",
                                    "hash-type"  => "memory" });
-my $sto = new RDF::Redland::Storage ("hashes", "test",
-                                     "new='yes', hash-type='memory'");
+my $sto
+    = new RDF::Redland::Storage ($sto_type, $sto_name,
+                                 $sto_opts);
 ## FIXME: constructor should accept a hash reference
 my $config
     = new RDF::Redland::Model ($stc, "");
