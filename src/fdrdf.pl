@@ -214,6 +214,7 @@ BEGIN {
 }
 
 my @config_files = ();
+my $config_format = "rdfxml";
 my @module_list;
 my $null_p = 0;
 my @files_from = ();
@@ -289,11 +290,39 @@ my $serializer
     = new RDF::Redland::Serializer ($output_format)
     or die ("$output_format: cannot initialize serializer");
 
+my $stc
+    = new RDF::Redland::Storage ("hashes", "cf",
+                                 { "new"        => "yes",
+                                   "hash-type"  => "memory" });
 my $sto = new RDF::Redland::Storage ("hashes", "test",
                                      "new='yes', hash-type='memory'");
+## FIXME: constructor should accept a hash reference
 my $config
-    = new RDF::Redland::Model ($sto, "");
+    = new RDF::Redland::Model ($stc, "");
 my $model = new RDF::Redland::Model ($sto, "");
+
+{
+    my $p
+        = new RDF::Redland::Parser ($config_format)
+        or die ("cannot initialize RDF::Redland::Parser: ", $!);
+    my $base_uri
+        = new RDF::Redland::URI ("http://example.invalid/");
+    for my $c (@config_files) {
+        ## FIXME: I didn't manage parse_into_model () to work
+        my $s;
+        {
+            local $/ = undef;
+            open (my $io, "<", $c)
+                or die ($c, ": ", $!);
+            defined ($s = <$io>)
+                or die ($c, ": ", $!);
+            close ($io);
+        }
+        defined ($p->parse_string_into_model ($s, $base_uri, $config))
+            or die ($c, ": ", $!);
+    }
+    # print STDERR ("Cf. size: ", $config->size (), "\n");
+}
 
 my %the_modules
     = ("io"     => { },
