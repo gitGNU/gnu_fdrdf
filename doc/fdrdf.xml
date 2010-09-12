@@ -282,6 +282,16 @@
           <para>Requires:
             <link xlink:href="&urlfile;">file(1)</link>.</para>
 
+          <para>Identifier:
+            <link
+               xlink:href="uuid:be8202c2-bbbc-11df-a158-4040a5e6bfa3"
+               />.</para>
+
+          <para>Its configuration prefix is:
+            <link
+               xlink:href="uuid:be8202c2-bbbc-11df-a158-4040a5e6bfa3#cf."
+               />.</para>
+
           <para>Its description prefix is:
             <link
                xlink:href="uuid:a2cb5fd0-4e89-4d8a-a009-dc42c45bbcc5#"
@@ -298,6 +308,16 @@
           <para>Requires:
             <link xlink:href="&urlgdalinfo;"
                   ><package>Geo::GDAL</package></link>.</para>
+
+          <para>Identifier:
+            <link
+               xlink:href="uuid:19ab9b94-bbd2-11df-8d8b-4040a5e6bfa3"
+               />.</para>
+
+          <para>Its configuration prefix is:
+            <link
+               xlink:href="uuid:19ab9b94-bbd2-11df-8d8b-4040a5e6bfa3#cf."
+               />.</para>
 
           <para>Its description prefix is:
             <link
@@ -316,6 +336,16 @@
             <link xlink:href="&urlgdalinfo;"
                   ><package>GDAL</package></link>.</para>
 
+          <para>Identifier:
+            <link
+               xlink:href="uuid:4a48ad14-bbd2-11df-b186-4040a5e6bfa3"
+               />.</para>
+
+          <para>Its configuration prefix is:
+            <link
+               xlink:href="uuid:4a48ad14-bbd2-11df-b186-4040a5e6bfa3#cf."
+               />.</para>
+
           <para>Its description prefix is:
             <link
                xlink:href="uuid:ea1a00f1-68ba-4739-aa7e-f74967ce5eb8#gdalinfo."
@@ -331,6 +361,16 @@
 
           <para>Requires:
             <link xlink:href="&urlgribapi;">GRIB API</link>.</para>
+
+          <para>Identifier:
+            <link
+               xlink:href="uuid:e4367fb4-bbd2-11df-8c7b-4040a5e6bfa3"
+               />.</para>
+
+          <para>Its configuration prefix is:
+            <link
+               xlink:href="uuid:e4367fb4-bbd2-11df-8c7b-4040a5e6bfa3#cf."
+               />.</para>
 
           <para>Its description prefix is:
             <link
@@ -355,6 +395,16 @@
             <link xlink:href="&urldigestsha1;"
                   ><package>Digest::SHA-1</package></link>.</para>
 
+          <para>Identifier:
+            <link
+               xlink:href="uuid:f1e05a1e-bbc2-11df-b3a7-4040a5e6bfa3"
+               />.</para>
+
+          <para>Its configuration prefix is:
+            <link
+               xlink:href="uuid:f1e05a1e-bbc2-11df-b3a7-4040a5e6bfa3#cf."
+               />.</para>
+
           <para>Its description prefix is:
             <link
                xlink:href="uuid:eb1d54d8-b67d-11df-9eec-4040a5e6bfa3#sha1"
@@ -372,6 +422,11 @@
             (or, rather, <function>fstat</function>) function on file
             and record the results in the numeric form.
           </para>
+
+          <para>Identifier:
+            <link
+               xlink:href="uuid:21624fe2-b54f-11df-b9c0-4040a5e6bfa3"
+               />.</para>
 
           <para>Its configuration prefix is:
             <link
@@ -394,6 +449,16 @@
 
           <para>Due to its simplicity, this module may be used as a
             template when developing other modules.</para>
+
+          <para>Identifier:
+            <link
+               xlink:href="uuid:95ec9414-bbd3-11df-b954-4040a5e6bfa3"
+               />.</para>
+
+          <para>Its configuration prefix is:
+            <link
+               xlink:href="uuid:95ec9414-bbd3-11df-b954-4040a5e6bfa3#cf."
+               />.</para>
 
           <para>Its description prefix is:
             <link
