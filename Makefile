@@ -27,11 +27,15 @@ doc/fdrdf.1: doc/fdrdf.xml
 
 install:
 	$(INSTALL) -d -- \
-	    $(bindir) $(man1dir) $(perllibdir)/fdrdf/module
+	    $(DESTDIR)$(bindir) \
+	    $(DESTDIR)$(man1dir) \
+	    $(DESTDIR)$(perllibdir)/fdrdf/module
 	$(INSTALL) -m 0644 -- \
 	    $(modules:%=$(pmsrcdir)/module/%.pm) \
-	    $(pkgperllibdir)/module/
-	$(INSTALL) -m 0755 -- $(srcdir)/doc/fdrdf.1 $(man1dir)/fdrdf.1
-	$(INSTALL) -m 0755 -- $(srcdir)/src/fdrdf.pl $(bindir)/fdrdf
+	    $(DESTDIR)$(pkgperllibdir)/module/
+	$(INSTALL) -m 0755 -- $(srcdir)/doc/fdrdf.1 \
+	    $(DESTDIR)$(man1dir)/fdrdf.1
+	$(INSTALL) -m 0755 -- $(srcdir)/src/fdrdf.pl \
+	    $(DESTDIR)$(bindir)/fdrdf
 
 ### Makefile ends here
