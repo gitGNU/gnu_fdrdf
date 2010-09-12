@@ -1,5 +1,8 @@
 ### Makefile  -*- Makefile -*-
 
+### Ivan Shmakov, 2010
+## This code is in the public domain.
+
 DESTDIR  =
 prefix   = /usr/local
 bindir   = $(prefix)/bin
