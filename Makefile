@@ -6,7 +6,7 @@ bindir   = $(prefix)/bin
 mandir   = $(prefix)/share/man
 man1dir  = $(mandir)/man1
 perllibdir = $(prefix)/lib/site_perl
-pkgperllibdir = $(perllibdir)/fdrdf/module
+pkgperllibdir = $(perllibdir)/fdrdf
 
 INSTALL  = install
 XSLTPROC = xsltproc
@@ -28,11 +28,10 @@ doc/fdrdf.1: doc/fdrdf.xml
 install:
 	$(INSTALL) -d -- \
 	    $(bindir) $(man1dir) $(perllibdir)/fdrdf/module
-	$(INSTALL) -m 0644 -- $(pmsrcdir)/module.pm $(pkgperllibdir)/
 	$(INSTALL) -m 0644 -- \
 	    $(modules:%=$(pmsrcdir)/module/%.pm) \
 	    $(pkgperllibdir)/module/
-	$(INSTALL) -m 0755 -- $(srcdir)/doc/fdrdf.man $(man1dir)/fdrdf.1
+	$(INSTALL) -m 0755 -- $(srcdir)/doc/fdrdf.1 $(man1dir)/fdrdf.1
 	$(INSTALL) -m 0755 -- $(srcdir)/src/fdrdf.pl $(bindir)/fdrdf
 
 ### Makefile ends here
