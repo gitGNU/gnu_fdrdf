@@ -177,9 +177,10 @@
         </term>
         <listitem>
           <para>Read configuration from
-            <replaceable>RDF-FILE</replaceable>.
-            <!-- FIXME: implement it! -->
-            (Currently does nothing.)</para>
+            <replaceable>RDF-FILE</replaceable>.  The file is parsed
+            with the <literal>rdfxml</literal> parser (as provided by
+            the <package>Redland RDF</package> libraries.)
+            There may be multiple instances of this option.</para>
         </listitem>
       </varlistentry>
 
@@ -434,9 +435,6 @@
 
     <para>The available modules, and the modules interface, are yet to
       be documented.</para>
-
-    <para>The <option>--config-file</option> (<option>-c</option>)
-      option currently does nothing.</para>
 
     <para>The command line interface in general and the
       <option>--help</option> option output is modelled after
