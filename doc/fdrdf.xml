@@ -272,10 +272,10 @@
 
     <para>The following modules come with the package.</para>
 
-    <variablelist>
-      <varlistentry>
-        <term><literal>file</literal></term>
-        <listitem>
+    <refsect2 xml:id="modules.file">
+      <title  xml:id="modules.file.t"
+              ><literal>file</literal></title>
+
           <para>Guess a <acronym>MIME</acronym> type for file and record
             it as a single untyped literal.</para>
 
@@ -286,13 +286,12 @@
             <link
                xlink:href="uuid:a2cb5fd0-4e89-4d8a-a009-dc42c45bbcc5#"
                />.</para>
-          <para></para>
-        </listitem>
-      </varlistentry>
+    </refsect2>
 
-      <varlistentry>
-        <term><literal>gdal</literal></term>
-        <listitem>
+    <refsect2 xml:id="modules.gdal">
+      <title  xml:id="modules.gdal.t"
+              ><literal>gdal</literal></title>
+
           <para>Extract metadata from geospatial data file with
             <package>Geo::GDAL</package>.</para>
 
@@ -304,12 +303,12 @@
             <link
                xlink:href="uuid:4d0235c4-6c10-4c94-b537-1650395bc50b#"
                />.</para>
-        </listitem>
-      </varlistentry>
+    </refsect2>
 
-      <varlistentry>
-        <term><literal>gdalinfo</literal></term>
-        <listitem>
+    <refsect2 xml:id="modules.gdalinfo">
+      <title  xml:id="modules.gdalinfo.t"
+              ><literal>gdalinfo</literal></title>
+
           <para>Process file with <command>gdalinfo</command> and record
             the metadata returned.</para>
 
@@ -321,12 +320,12 @@
             <link
                xlink:href="uuid:ea1a00f1-68ba-4739-aa7e-f74967ce5eb8#gdalinfo."
                />.</para>
-        </listitem>
-      </varlistentry>
+    </refsect2>
 
-      <varlistentry>
-        <term><literal>grib</literal></term>
-        <listitem>
+    <refsect2 xml:id="modules.grib">
+      <title  xml:id="modules.grib.t"
+              ><literal>grib</literal></title>
+
           <para>Process file with <command>grib_ls</command>
             and record the fields' descriptions.</para>
 
@@ -337,12 +336,12 @@
             <link
                xlink:href="uuid:cf81ffce-b43b-11df-b10e-0026b917f4bd#"
                />.</para>
-        </listitem>
-      </varlistentry>
+    </refsect2>
 
-      <varlistentry>
-        <term><literal>sha1</literal></term>
-        <listitem>
+    <refsect2 xml:id="modules.sha1">
+      <title  xml:id="modules.sha1.t"
+              ><literal>sha1</literal></title>
+
           <para>Compute
             <link xlink:href="&urlfips-180-3;">FIPS 180-3</link>
             <acronym>SHA-1</acronym>
@@ -360,12 +359,12 @@
             <link
                xlink:href="uuid:eb1d54d8-b67d-11df-9eec-4040a5e6bfa3#sha1"
                />.</para>
-        </listitem>
-      </varlistentry>
+    </refsect2>
 
-      <varlistentry>
-        <term><literal>stat</literal></term>
-        <listitem>
+    <refsect2 xml:id="modules.stat">
+      <title  xml:id="modules.stat.t"
+              ><literal>stat</literal></title>
+
           <para>Perform
             <link xlink:href="&urlposix;">POSIX</link>
             <link xlink:href="&urlposixstat;"
@@ -383,12 +382,13 @@
             <link
                xlink:href="uuid:2e22aa82-b550-11df-9d5c-4040a5e6bfa3#stat."
                />.</para>
-        </listitem>
-      </varlistentry>
+          <para></para>
+    </refsect2>
 
-      <varlistentry>
-        <term><literal>test</literal></term>
-        <listitem>
+    <refsect2 xml:id="modules.test">
+      <title  xml:id="modules.test.t"
+              ><literal>test</literal></title>
+
           <para>Add a constant (relation, value) pair to the description
             of each file processed.</para>
 
@@ -400,9 +400,7 @@
                xlink:href="uuid:35cef816-b42f-11df-84e9-4040a5e6bfa3#"
                />.</para>
           <para></para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
+    </refsect2>
 
   </refsect1>
 
