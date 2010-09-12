@@ -12,8 +12,16 @@ INSTALL  = install
 XSLTPROC = xsltproc
 
 srcdir   = .
-pmsrcdir = $(srcdir)/lib/perl/fdrdf
-modules  = file grib sha1 stat test
+pmsrcdir = $(srcdir)/lib/perl
+perl_modules = \
+	$(fdrdf_modules:%=fdrdf::module::%) \
+	fdrdf::proto fdrdf::proto::chunks fdrdf::proto::io \
+	fdrdf::util \
+	fdrdf::xfmcache fdrdf::xfmcache::proto
+fdrdf_modules = \
+	file gdal gdalinfo grib sha1 stat test
+
+perl_module_files = $(subst ::,/,$(perl_modules:%=%.pm))
 
 all:
 	## There isn't much to be done for `all'
@@ -29,10 +37,13 @@ install:
 	$(INSTALL) -d -- \
 	    $(DESTDIR)$(bindir) \
 	    $(DESTDIR)$(man1dir) \
-	    $(DESTDIR)$(perllibdir)/fdrdf/module
-	$(INSTALL) -m 0644 -- \
-	    $(modules:%=$(pmsrcdir)/module/%.pm) \
-	    $(DESTDIR)$(pkgperllibdir)/module/
+	    $(DESTDIR)$(pkgperllibdir)/module \
+	    $(DESTDIR)$(pkgperllibdir)/proto \
+	    $(DESTDIR)$(pkgperllibdir)/xfmcache
+	for pm in $(perl_module_files) ; do \
+	    $(INSTALL) -m 0644 -- \
+	        $(pmsrcdir)/$$pm $(DESTDIR)/$(perllibdir)/$$pm ; \
+	done
 	$(INSTALL) -m 0755 -- $(srcdir)/doc/fdrdf.1 \
 	    $(DESTDIR)$(man1dir)/fdrdf.1
 	$(INSTALL) -m 0755 -- $(srcdir)/src/fdrdf.pl \
