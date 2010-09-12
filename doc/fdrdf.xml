@@ -106,8 +106,8 @@
 
   <refnamediv>
     <refname>&fdrdf;</refname>
-    <refpurpose>extract files' metadata with given modules and produce
-      the result in an RDF representation</refpurpose>
+    <refpurpose>build an RDF-based descriptions' catalogue by extracting
+      files' metadata</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
