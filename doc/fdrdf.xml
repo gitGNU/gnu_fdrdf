@@ -192,7 +192,8 @@
           ><replaceable>MODULES</replaceable>
         </term>
         <listitem>
-          <para>Specify the modules to process the files with.</para>
+          <para>Specify the modules to process the files with.
+            There may be multiple instances of this option.</para>
         </listitem>
       </varlistentry>
 
@@ -220,7 +221,8 @@
         <listitem>
           <para>Read the list of files to process from
             <replaceable>FILE</replaceable>, in addition to those
-            specified on the command line.</para>
+            specified on the command line.
+            There may be multiple instances of this option.</para>
         </listitem>
       </varlistentry>
 
