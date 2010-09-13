@@ -60,6 +60,10 @@
              "ISOpub.ent">
           %iso.num;
           %iso.pub;
+
+          <!-- FIXME: is there a way to use ../examples/mark.cf.rdf? -->
+          <!ENTITY ex.mark.cf
+                   SYSTEM "mark.cf.rdf.cdata">
           ]>
 <refentry xmlns="http://docbook.org/ns/docbook"
           xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -378,6 +382,40 @@
                />.</para>
     </refsect2>
 
+    <refsect2 xml:id="modules.mark">
+      <title  xml:id="modules.mark.t"
+              ><literal>mark</literal></title>
+
+          <para>Add arbitrary (relation, value) pairs to the description
+            of each file processed.</para>
+
+          <para>This module interfaces only the
+            <package>Redland RDF</package> libraries, the tool-specific
+            libraries, and the tool itself, which makes it a good
+            candidate for being a template for developing other
+            modules.</para>
+
+          <para>Identifier:
+            <link
+               xlink:href="uuid:0b54e2a6-bea4-11df-afda-4040a5e6bfa3"
+               />.</para>
+
+          <para>Its configuration prefix is:
+            <link
+               xlink:href="uuid:0b54e2a6-bea4-11df-afda-4040a5e6bfa3#cf."
+               />.</para>
+
+          <para>Its description prefix is:
+            <link
+               xlink:href="uuid:0fa291e6-bea4-11df-86d6-4040a5e6bfa3#"
+               />.</para>
+
+          <para>Configuration example:
+            <programlisting
+               >&ex.mark.cf;</programlisting>
+          </para>
+    </refsect2>
+
     <refsect2 xml:id="modules.sha1">
       <title  xml:id="modules.sha1.t"
               ><literal>sha1</literal></title>
@@ -436,33 +474,6 @@
           <para>Its description prefix is:
             <link
                xlink:href="uuid:2e22aa82-b550-11df-9d5c-4040a5e6bfa3#stat."
-               />.</para>
-          <para></para>
-    </refsect2>
-
-    <refsect2 xml:id="modules.test">
-      <title  xml:id="modules.test.t"
-              ><literal>test</literal></title>
-
-          <para>Add a constant (relation, value) pair to the description
-            of each file processed.</para>
-
-          <para>Due to its simplicity, this module may be used as a
-            template when developing other modules.</para>
-
-          <para>Identifier:
-            <link
-               xlink:href="uuid:95ec9414-bbd3-11df-b954-4040a5e6bfa3"
-               />.</para>
-
-          <para>Its configuration prefix is:
-            <link
-               xlink:href="uuid:95ec9414-bbd3-11df-b954-4040a5e6bfa3#cf."
-               />.</para>
-
-          <para>Its description prefix is:
-            <link
-               xlink:href="uuid:35cef816-b42f-11df-84e9-4040a5e6bfa3#"
                />.</para>
           <para></para>
     </refsect2>

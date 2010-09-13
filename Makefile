@@ -22,7 +22,7 @@ perl_modules = \
 	fdrdf::util \
 	fdrdf::xfmcache fdrdf::xfmcache::proto
 fdrdf_modules = \
-	file gdal gdalinfo grib sha1 stat test
+	file gdal gdalinfo grib mark sha1 stat
 
 perl_module_files = $(subst ::,/,$(perl_modules:%=%.pm))
 
@@ -35,6 +35,10 @@ doc: doc/fdrdf.1
 
 doc/fdrdf.1: doc/fdrdf.xml
 	$(XSLTPROC) -o $@ $<
+
+doc/fdrdf.1: doc/mark.cf.rdf.cdata
+doc/%.cf.rdf.cdata: examples/%.cf.rdf
+	echo "<![CDATA[$$(cat -- '$<')]]>" > $@
 
 install:
 	$(INSTALL) -d -- \

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="us-ascii" ?>  <!-- -*- XML -*- -->
+<!-- mark.cf.rdf &mdash; Example &lsquo;mark&rsquo; module cf. -->
+<!-- Ivan Shmakov, 2010 -->
+<!-- This configuration file is in the public domain. -->
+<!DOCTYPE rdf:RDF [
+          <!ENTITY rdf
+                   "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+          <!ENTITY mark
+                   "uuid:0b54e2a6-bea4-11df-afda-4040a5e6bfa3#">
+          <!ENTITY ex
+                   "uuid:29b718a2-beab-11df-a187-4040a5e6bfa3#">
+          <!ENTITY ex0
+                   "uuid:f294b762-beaa-11df-931b-4040a5e6bfa3#">
+          ]>
+<rdf:RDF
+   xmlns:rdf="&rdf;"
+   xmlns:mark="&mark;"
+   >
+  <rdf:Description rdf:about="&ex0;anything">
+    <mark:cf.markWithPair>
+      <rdf:Description>
+        <rdf:predicate
+           rdf:resource="&ex;example-mark-predicate-1" />
+        <rdf:value
+           rdf:resource="&ex;example-mark-value-1" />
+      </rdf:Description>
+    </mark:cf.markWithPair>
+    <mark:cf.markWithPair>
+      <rdf:Description>
+        <rdf:predicate
+           rdf:resource="&ex;example-mark-predicate-2" />
+        <rdf:value
+           rdf:resource="&ex;example-mark-value-2" />
+      </rdf:Description>
+    </mark:cf.markWithPair>
+  </rdf:Description>
+</rdf:RDF>
+<!-- Local variables: -->
+<!-- fill-column: 64 -->
+<!-- indent-tabs-mode: nil -->
+<!-- End: -->
+<!-- mark.cf.rdf ends here -->
