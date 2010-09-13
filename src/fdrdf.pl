@@ -170,6 +170,8 @@ sub help {
            . " read configuration from RDF-FILE\n"
            . "  -m, --modules=MODULES     "
            . " use MODULES to process files\n"
+           . "      --no-output           "
+           . " suppress model serialization and output\n"
            . "  -o, --output=FILE         "
            . " write result to FILE instead of standard output\n"
            . "      --storage-name=NAME   "
@@ -249,6 +251,7 @@ Getopt::Mixed::init ("?      help>?"
                      . " c=s config-file>c"
                      . " T=s files-from>T"
                      . " m=s modules>m"
+                     . "     no-output"
                      . "     storage-name=s"
                      . "     storage-options=s"
                      . "     storage-type=s"
@@ -297,6 +300,10 @@ Getopt::Mixed::init ("?      help>?"
               $sto_type = $value;
               last SWITCH;
           }
+          if (/^--no-output/) {
+              $output = undef;
+              last SWITCH;
+          }
           if (/^-o|--output/) {
               $output = $value;
               last SWITCH;
@@ -318,9 +325,10 @@ unless ((1 + $#ARGV > 0) or (1 + $#files_from > 0)) {
     exit 1;
 }
 
-my $out = open_file ($output, 1);
-unless (defined ($out)) {
-    die ("$output: cannot open file");
+my $out = undef;
+if (defined ($output)) {
+    $out = open_file ($output, 1)
+        or die ("$output: cannot open file");
 }
 
 my $serializer
@@ -389,7 +397,7 @@ foreach my $file (@ARGV) {
     process_file (\%process_info, $file);
 }
 
-{
+if (defined ($out)) {
     my ($uuid_bit, $uuid_s);
     UUID::generate ($uuid_bit);
     UUID::unparse  ($uuid_bit, $uuid_s);

@@ -202,6 +202,17 @@
       </varlistentry>
 
       <varlistentry>
+        <term><option>--no-output</option></term>
+        <listitem>
+          <para>Suppress model serialization and output.</para>
+
+          <para>This option is useful when the model is to be saved into
+            an RDF storage (check the <option>--storage-</option> family
+            of options) and no serialized form is needed.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
         <term><option>-o</option></term>
         <term xml:space='default'>
           <option>--output</option
