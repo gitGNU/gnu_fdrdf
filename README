@@ -13,7 +13,7 @@ README  -*- Text -*-
 
 	* file MIME type (as guessed by the `file' tool);
 
-	* geospatial metadata (as reported by `gdalinfo');
+	* geospatial metadata (as reported by `Geo::GDAL');
 
 	* GRIB file composition (as reported by `grib_ls'.)
 
@@ -46,10 +46,11 @@ README  -*- Text -*-
 	  around non-Perl tools and libraries) for gathering specific
 	  metadata;
 
-	* the metadata gathered are recorded as an RDF model and are
-	  output in one of the Redland RDF library-supported
-	  representations (at the time of writing: RDF-XML or
-	  Ntriples);
+	* the metadata gathered are recorded as an RDF model, which
+	  then can be output in one of the Raptor library-supported
+	  representations (at the time of writing, the list includes:
+	  RDF-XML, Ntriples, Turtle, JSON, etc.), or can be put into a
+	  Redland RDF storage directly, or both, or neither;
 
 	* it's designed to be run from Shell, so it's possible to use
 	  it from any software capable of doing a fork(2) + exec(2)
@@ -84,6 +85,10 @@ README  -*- Text -*-
 	`file' and `gdalinfo' modules were written by Svetlana
 	Zelenina (with Ivan Shmakov occasionally looking over the
 	shoulder.)
+
+	The 0.2 version followed shoslightly more than a week later,
+	bringing some incompatible changes, new features, vast
+	clean-ups, and improvements both to the code and documentation.
 
 	Ivan Shmakov <ivan@main.uusia.org>
 
