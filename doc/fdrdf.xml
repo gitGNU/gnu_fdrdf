@@ -216,6 +216,56 @@
       </varlistentry>
 
       <varlistentry>
+        <term>
+          <option>--storage-name</option
+          ><literal>=</literal
+          ><replaceable>NAME</replaceable>
+        </term>
+        <term>
+          <option>--storage-options</option
+          ><literal>=</literal
+          ><replaceable>OPTS</replaceable>
+        </term>
+        <term>
+          <option>--storage-type</option
+          ><literal>=</literal
+          ><replaceable>TYPE</replaceable>
+        </term>
+        <listitem>
+          <para>Specify the storage name, type, and options to
+            use.</para>
+
+          <para>The storage name may serve different purposes depending
+            on the storage type used.  In particular, for
+            filesystem-based storage types, it may be used to specify
+            file name or prefix.  Possible options also depend on the
+            model.</para>
+
+          <para>The storage types available may vary from system to
+            system.  As of this writing, the documentation for the
+            <package>Redland RDF</package> libraries lists the following
+            storage types:
+            <simplelist type="inline">
+              <member><literal>file</literal></member>
+              <member><literal>hashes</literal></member>
+              <member><literal>memory</literal></member>
+              <memory><literal>mysql</literal></memory>
+              <memory><literal>postgresql</literal></memory>
+              <memory><literal>sqlite</literal></memory>
+              <memory><literal>tstore</literal></memory>
+              <memory><literal>uri</literal></memory>
+              <memory><literal>Virtuoso</literal></memory>
+            </simplelist>.</para>
+
+          <para>For more detailed information on the valid values for
+            these options, please refer to the
+            <link xlink:href="&urllibrdf;"
+                  ><package>Redland RDF</package></link>
+            documentation.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
         <term><option>-T</option></term>
         <term xml:space='default'>
           <option>--files-from</option
