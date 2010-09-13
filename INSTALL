@@ -20,6 +20,32 @@ $ make DESTDIR="${PWD}/debian/dist" \
       prefix=/usr perllibdir=/usr/share/perl5 \
       install 
 
+        For testing, my personal preference is as follows:
+
+$ (d="+dist-$(date +%s)" \
+       && LC_ALL=C /usr/bin/time make DESTDIR="$d" doc install \
+              2>&1 | tee +install-$(date +%s).log ; \
+       LC_ALL=C tree "$d") 
+
+        Such an install could then be tested like (substitute
+        `+dist-1284382964' in the command below with the actual
+        directory made at the previous step):
+
+$ (sha1 () { sed -e '/\<_:r[0-9]*r[0-9]*r/s//_:r/' \
+                 | LC_ALL=C sort | sha1sum; } \
+       && p=+dist-1284382964/usr/local \
+       && PERLLIB="$p"/lib/site_perl "$p"/bin/fdrdf -m 'file grib sha1' \
+              -t ntriples -- \
+              ladsftp.nascom.nasa.gov/allData/5/SEA_ICE/2010/242/eng.100831 \
+              | sha1 \
+       && PERLLIB="$p"/lib/site_perl "$p"/bin/fdrdf -m 'file gdal sha1' \
+              -t ntriples -- \
+              ladsftp.[...]/013/MOD07_L2.A2010013.0615.005.2010013143806.hdf \
+              | sha1) 
+ac4985c54625a2cea135d3b371dfb9e658b52b66  -
+7fabdf0ef8d2204e709f95257f520af1ea153ce3  -
+$ 
+
 * License
 
 Copyright (C) 2010 Ivan Shmakov
