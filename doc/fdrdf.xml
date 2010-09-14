@@ -260,12 +260,12 @@
               <member><literal>file</literal></member>
               <member><literal>hashes</literal></member>
               <member><literal>memory</literal></member>
-              <memory><literal>mysql</literal></memory>
-              <memory><literal>postgresql</literal></memory>
-              <memory><literal>sqlite</literal></memory>
-              <memory><literal>tstore</literal></memory>
-              <memory><literal>uri</literal></memory>
-              <memory><literal>Virtuoso</literal></memory>
+              <member><literal>mysql</literal></member>
+              <member><literal>postgresql</literal></member>
+              <member><literal>sqlite</literal></member>
+              <member><literal>tstore</literal></member>
+              <member><literal>uri</literal></member>
+              <member><literal>Virtuoso</literal></member>
             </simplelist>.</para>
 
           <para>For more detailed information on the valid values for
