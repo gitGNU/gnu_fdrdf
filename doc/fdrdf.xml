@@ -299,14 +299,32 @@
           ><replaceable>FORMAT</replaceable>
         </term>
         <listitem>
-          <para>Specify the output serialization, as supported by the
-            <package>Redland RDF library</package>.
-            May be one of:
+          <para>Specify the output serialization.</para>
+
+          <para>The serializations available may vary from system to
+            system.  As of this writing, the documentation for the
+            <package>Raptor RDF Parser Library</package> (part of the
+            <package>Redland RDF</package> libraries) lists the
+            following supported serializations:
             <simplelist type="inline">
-              <member><literal>rdfxml</literal> (default)</member>
+              <member><literal>atom</literal></member>
+              <member><literal>dot</literal></member>
+              <member><literal>json</literal></member>
+              <member><literal>json-triples</literal></member>
+              <member><literal>nquads</literal></member>
               <member><literal>ntriples</literal></member>
-              <member><literal>simple</literal></member>
+              <member><literal>rdfxml</literal> (default)</member>
+              <member><literal>rdfxml-abbrev</literal></member>
+              <member><literal>rdfxml-xmp</literal></member>
+              <member><literal>rss-1.0</literal></member>
+              <member><literal>turtle</literal></member>
             </simplelist>.</para>
+
+          <para>For more detailed information on the valid values for
+            these options, please refer to the
+            <link xlink:href="&urllibrdf;"
+                  ><package>Raptor RDF Parser Library</package></link>
+            documentation.</para>
         </listitem>
       </varlistentry>
 
