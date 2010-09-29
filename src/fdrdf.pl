@@ -44,6 +44,8 @@ $PACKAGE_NAME = "FDRDF";
 $PACKAGE_VERSION = "0.1";
 $PACKAGE_BUGREPORT = 'ivan@theory.asu.ru';
 
+### Module API
+
 sub init_module {
     my ($config, $name) = @_;
 
@@ -87,6 +89,8 @@ sub init_modules {
         check_module_tags ($modules, $name, $module);
     }
 }
+
+### Processing individual files
 
 sub process_file {
     my ($p_ref, $filename) = @_;
@@ -153,6 +157,8 @@ sub process_chunk {
         $c->close ();
     }
 }
+
+### Command line interface
 
 ## FIXME: use the Perl port of GNU Argp
 
@@ -325,6 +331,8 @@ unless ((1 + $#ARGV > 0) or (1 + $#files_from > 0)) {
     exit 1;
 }
 
+### Main code
+
 my $out = undef;
 if (defined ($output)) {
     $out = open_file ($output, 1)
@@ -412,5 +420,6 @@ if (defined ($out)) {
 ## Local variables:
 ## fill-column: 72
 ## indent-tabs-mode: nil
+## outline-regexp: "###"
 ## End:
 ### fdrdf.pl ends here
