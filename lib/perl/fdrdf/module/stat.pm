@@ -46,6 +46,12 @@ BEGIN {
     @xs_types_list = qw(integer);
 }
 
+## NB: not an OO method
+sub uri_node {
+    ## .
+    return new RDF::Redland::URINode (@_);
+}
+
 sub process_stat {
     my ($self, $model, $subject, @stat) = @_;
     our (@keys_list);
@@ -92,7 +98,7 @@ sub new {
     our (@keys_list);
     our ($xs_prefix, @xs_types_list);
     foreach my $type (@xs_types_list) {
-        $params{"uri.type.xs." . $type}
+        $self->{"uri.type.xs." . $type}
             = new RDF::Redland::URI ($xs_prefix . $type);
     }
     foreach my $key (@keys_list) {
@@ -102,6 +108,8 @@ sub new {
         $self->{"node.pred.numeric"}->{$key}
             = new RDF::Redland::URINode ($uri_s);
     }
+
+    bless ($self, $class);
 
     ## .
     $self;
