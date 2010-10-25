@@ -31,6 +31,7 @@ use URI::file;
 use UUID;
 
 use fdrdf::callback;
+use fdrdf::config;
 use fdrdf::util;
 
 my $progname;
@@ -344,16 +345,13 @@ my $serializer
     = new RDF::Redland::Serializer ($output_format)
     or die ("$output_format: cannot initialize serializer");
 
-my $stc
-    = new RDF::Redland::Storage ("hashes", "cf",
-                                 { "new"        => "yes",
-                                   "hash-type"  => "memory" });
 my $sto
     = new RDF::Redland::Storage ($sto_type, $sto_name,
                                  $sto_opts);
-## FIXME: constructor should accept a hash reference
+my $cf_obj
+    = new fdrdf::config ();
 my $config
-    = new RDF::Redland::Model ($stc, "");
+    = $cf_obj->config ();
 my $model = new RDF::Redland::Model ($sto, "");
 
 my $callback
