@@ -37,6 +37,7 @@ BEGIN {
         = ("hashes", "cf");
     our $sto_opts = {
         "new"           => "yes",
+        "contexts"      => "yes",
         "hash-type"     => "memory"
     };
 }
