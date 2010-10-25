@@ -176,6 +176,10 @@ sub help {
            . " -T reads null-terminated names\n"
            . "  -c, --config-file=RDF-FILE"
            . " read configuration from RDF-FILE\n"
+           . "      --configuration=URI   "
+           . " select specific parts of a multi-configuration\n"
+           . "                            "
+           . "   file\n"
            . "  -m, --modules=MODULES     "
            . " use MODULES to process files\n"
            . "      --no-output           "
@@ -241,11 +245,13 @@ BEGIN {
 
 my @config_files = ();
 my $config_format = "rdfxml";
+my @configuration = ();
 my @module_list;
 my $null_p = 0;
 my @files_from = ();
 my $output = "-";
 my $output_format = "rdfxml";
+my $show_config_nodes_p = 1;
 my $sto_type = "hashes";
 my $sto_name = "";
 my $sto_opts = {
@@ -257,6 +263,7 @@ Getopt::Mixed::init ("?      help>?"
                      . " V   version>V"
                      . " 0   null>0"
                      . " c=s config-file>c"
+                     . "     configuration=s"
                      . " T=s files-from>T"
                      . " m=s modules>m"
                      . "     no-output"
@@ -286,6 +293,10 @@ Getopt::Mixed::init ("?      help>?"
           }
           if (/^-c|^--config-file/) {
               push (@config_files, $value);
+              last SWITCH;
+          }
+          if (/^--configuration/) {
+              push (@configuration, $value);
               last SWITCH;
           }
           if (/^-T|^--files-from/) {
@@ -355,7 +366,9 @@ my $config
 my $model = new RDF::Redland::Model ($sto, "");
 
 my $callback
-    = new fdrdf::callback ("config", $config);
+    = new fdrdf::callback ("config", $config,
+                           "selected_predicate",
+                           $cf_obj->predicate ("selected"));
 
 {
     my $p
@@ -378,6 +391,18 @@ my $callback
             or die ($c, ": ", $!);
     }
     # print STDERR ("Cf. size: ", $config->size (), "\n");
+}
+
+$cf_obj->select (@configuration);
+my $use_default_p
+    = ! $cf_obj->has_selected_p ();
+$cf_obj->activate_default ()
+    if ($use_default_p);
+$cf_obj->activate_includes ();
+
+## show selected configuration nodes (debug?)
+if ($show_config_nodes_p) {
+    $cf_obj->show_selected (\*STDERR);
 }
 
 my %the_modules

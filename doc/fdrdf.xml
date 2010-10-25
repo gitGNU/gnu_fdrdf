@@ -189,6 +189,22 @@
       </varlistentry>
 
       <varlistentry>
+        <term xml:space='default'>
+          <option>--configuration</option
+          ><literal>=</literal
+          ><replaceable>URI</replaceable>
+        </term>
+        <listitem>
+          <para>Select specific parts of a configuration file to be
+            used.  Should no parts be selected (either with this option,
+            or from within the configuration file itself), the
+            &ldquo;default&rdquo; parts of the configuration will be
+            selected.
+            There may be multiple instances of this option.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
         <term><option>-m</option></term>
         <term xml:space='default'>
           <option>--modules</option

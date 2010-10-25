@@ -64,6 +64,8 @@ sub configure {
     {
         my $mark_pair_uri_s
             = $self->{"uri.s.markWithPair"};
+        my $selected
+            = $callback->selected_sparql ();
         my @q_lang
             = (undef, undef, "sparql");
         my $q_s
@@ -73,6 +75,7 @@ sub configure {
                . " <" . $mark_pair_uri_s . ">\n"
                . "SELECT ?p ?v\n"
                . "WHERE {\n"
+               . "  ?n1 " . $selected . " .\n"
                . "  ?n1 mark: ?n2 .\n"
                . "  ?n2 rdf:predicate ?p ;\n"
                . "      rdf:value     ?v .\n"
