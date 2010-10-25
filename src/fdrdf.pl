@@ -30,6 +30,7 @@ use RDF::Redland;
 use URI::file;
 use UUID;
 
+use fdrdf::callback;
 use fdrdf::util;
 
 my $progname;
@@ -47,7 +48,7 @@ $PACKAGE_BUGREPORT = 'ivan@theory.asu.ru';
 ### Module API
 
 sub init_module {
-    my ($config, $name) = @_;
+    my ($callback, $name) = @_;
 
     my $f = "fdrdf/module/" . $name . ".pm";
     eval { require $f; };
@@ -56,7 +57,7 @@ sub init_module {
 
     my $class = "fdrdf::module::" . $name;
     my $module
-        = new $class ($config);
+        = new $class ($callback);
 
     ## .
     return $module;
@@ -79,12 +80,12 @@ sub check_module_tags {
 }
 
 sub init_modules {
-    my ($config, $modules, @names) = @_;
+    my ($callback, $modules, @names) = @_;
     foreach my $name (@names) {
         next
             if (exists $modules->{$name});
         my $module
-            = init_module ($config, $name)
+            = init_module ($callback, $name)
             or die ("$name: failed to initialize module");
         check_module_tags ($modules, $name, $module);
     }
@@ -355,6 +356,9 @@ my $config
     = new RDF::Redland::Model ($stc, "");
 my $model = new RDF::Redland::Model ($sto, "");
 
+my $callback
+    = new fdrdf::callback ("config", $config);
+
 {
     my $p
         = new RDF::Redland::Parser ($config_format)
@@ -381,7 +385,7 @@ my $model = new RDF::Redland::Model ($sto, "");
 my %the_modules
     = ("io"     => { },
        "chunks" => { });
-init_modules ($config, \%the_modules, @module_list);
+init_modules ($callback, \%the_modules, @module_list);
 
 my %process_info
     = ("config"     => $config,

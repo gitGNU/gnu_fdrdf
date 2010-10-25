@@ -90,7 +90,7 @@ sub add_chunk {
 package fdrdf::module::sha1;
 
 sub new {
-    my ($class, $config) = @_;
+    my ($class, $callback) = @_;
 
     our ($module_uri_s, $conf_prefix);
     our ($desc_prefix,  $sha1_uri_s);

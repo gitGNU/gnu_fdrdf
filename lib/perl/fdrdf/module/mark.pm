@@ -57,7 +57,8 @@ sub process_io {
 }
 
 sub configure {
-    my ($self, $config, $default) = @_;
+    my ($self, $callback, $default) = @_;
+    my $config = $callback->config ();
     my @rv
         = ();
     {
@@ -93,7 +94,7 @@ sub configure {
 }
 
 sub new {
-    my ($class, $config) = @_;
+    my ($class, $callback) = @_;
 
     our ($module_uri_s, $conf_prefix);
     our ($desc_prefix);
@@ -119,7 +120,7 @@ sub new {
     };
 
     bless ($self, $class);
-    $self->configure ($config, $default);
+    $self->configure ($callback, $default);
 
     ## .
     $self;
