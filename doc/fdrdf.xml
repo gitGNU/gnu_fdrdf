@@ -12,7 +12,7 @@
           <!ENTITY fdsurname   "Shmakov">
           <!ENTITY fdemail     "ivan@theory.asu.ru">
           <!ENTITY fdfullname  "&fdfirstname; &fdsurname;">
-          <!ENTITY fdbugemail  "adir-devel@theory.asu.ru">
+          <!ENTITY fdbugemail  "fdrdf-devel@nongnu.org">
 
           <!ENTITY fdrdf       "fdrdf">
           <!ENTITY fdpackage   "FDRDF">
